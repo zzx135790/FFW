@@ -1,3 +1,5 @@
+import random
+
 from torch.utils.data import Dataset
 from torch import tensor
 import os
@@ -98,14 +100,14 @@ def mk_set():
 
         if not mode:
             file_name = train_set
-            if os.path.exists(train_data):
-                os.remove(train_data)
-                print(f"文件 {train_data} 已被删除, train数据集即将建立")
+            # if os.path.exists(train_data):
+            #     os.remove(train_data)
+            #     print(f"文件 {train_data} 已被删除, train数据集即将建立")
         else:
             file_name = val_set
-            if os.path.exists(val_data):
-                os.remove(val_data)
-                print(f"文件 {val_data} 已被删除, val数据集即将建立")
+            # if os.path.exists(val_data):
+            #     os.remove(val_data)
+            #     print(f"文件 {val_data} 已被删除, val数据集即将建立")
 
         with open(file_name, 'w') as output_file:
             for output_result in output_list:
@@ -117,7 +119,7 @@ def mk_set():
 
 
 def cln_set():
-    read_files = [train_set, train_set]
+    read_files = [train_set, val_set]
     for mode in range(2):
         with open(read_files[mode], 'r') as file:
             lines = file.readlines()
@@ -125,15 +127,14 @@ def cln_set():
         # 存储每个图像的边界框信息
         image_boxes = {i: 0 for i in range(6)}
         output_list = []
-        param = 0
+        cls5_ratio = 0.98
         # 遍历文档中的每一行
         for line in lines:
             parts = line.strip().split()
             image_boxes[int(parts[24])] += 1
-            num_dont = float(parts[20])+float(parts[21])+float(parts[22])+float(parts[23])
+            num_dont = float(parts[20]) + float(parts[21]) + float(parts[22]) + float(parts[23])
             if int(parts[24]) == 5 and num_dont >= 2:
-                param = (param + 1) % 50
-                if param % 50 == 0:
+                if random.random() >= cls5_ratio:
                     output_list.append(line)
             else:
                 output_list.append(line)

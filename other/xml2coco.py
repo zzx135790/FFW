@@ -9,7 +9,7 @@ import shutil
 import numpy as np
 import xml.etree.ElementTree as ET
 
-path2 = "C:\\Users\\zzx123\\Desktop\\work\\竞赛\\服务外包\\we_data\\temp"
+path2 = "F:\\ffwb\\we_data\\temp"
 
 START_BOUNDING_BOX_ID = 1
 
@@ -107,10 +107,10 @@ if __name__ == '__main__':
     only_care_pre_define_categories = True
     # only_care_pre_define_categories = False
 
-    train_ratio = 1
+    train_ratio = 0
     save_json_train = 'train.json'
     save_json_val = 'val.json'
-    xml_dir = "C:\\Users\\zzx123\\Desktop\\work\\竞赛\\服务外包\\we_data\\temp\\origin_data"
+    xml_dir = "F:\\ffwb\\we_data\\data_xml\\ori_val"
 
     xml_list = glob.glob(xml_dir + "/*.xml")
     xml_list = np.sort(xml_list)

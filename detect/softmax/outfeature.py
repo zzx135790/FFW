@@ -1,7 +1,7 @@
 import os
 import random
 import detect.common as common
-from detect.confirm import overlop
+from detect.confirm import overlop, confirm
 from .tempfile import train_data, val_data, train_ratio
 
 
@@ -28,26 +28,7 @@ def single(results: []):
 
 # 用于对所有的模型的结果进行验证，
 def output_dataset(name, results: []):
-
-    had_sort = {i: False for i in range(len(results))}
-    results.sort(key=lambda x: x.score, reverse=True)
-    overlop_set = []
-    for now in range(len(results)):
-        if had_sort[now]:
-            continue
-        overlop_set.append([results[now]])
-        had_sort[now] = True
-        for nxt in range(now + 1, len(results)):
-            if had_sort[nxt]:
-                continue
-            if overlop(results[now], results[nxt], common.iou_threshold):
-                overlop_set[-1].append(results[nxt])
-                had_sort[nxt] = True
-
-    output_results = []
-    for page in overlop_set:
-        output_results.append(single(page))
-
+    output_results = confirm(name, results, mode="model")
     with open(train_data, 'a') as train_out:
         with open(val_data, 'a') as val_out:
             for output_result in output_results:

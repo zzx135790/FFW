@@ -60,6 +60,11 @@ model_classes = ['good', 'broke', 'lose', 'uncovered', 'circle']
 # 储存中间信息的文件夹
 temp_dir = './temp/'
 
+# 测试的目标文件夹
+test_dir = "C:\\Users\\zzx123\\Desktop\\work\\temp"
+# 测试使用的目标框文件夹，注意是voc格式的信息，全部放在一个文件夹下
+xml_dir = "F:\\ffwb\\we_data\\data_xml\\ori_val"
+
 
 # 程序错误退出的函数
 def error_return(eid: int):
@@ -75,3 +80,22 @@ def read_jpg_files(_folder_path):
             file_path = os.path.join(_folder_path, filename)
             jpg_files.append(file_path)
     return jpg_files
+
+
+# 从xml文件中读取目标框
+def read_box_from_xml(xml_path):
+    import xml.dom.minidom
+    from .receive import Result
+    class2num = {model_classes[i]: i for i in range(5)}
+    dom = xml.dom.minidom.parse(xml_path)
+    root = dom.documentElement
+    ans_set = []
+    for id in range(len(root.getElementsByTagName("name"))):
+        type = root.getElementsByTagName("name")[id].firstChild.data
+        xmin = float(root.getElementsByTagName("xmin")[id].firstChild.data)
+        ymin = float(root.getElementsByTagName("ymin")[id].firstChild.data)
+        xmax = float(root.getElementsByTagName("xmax")[id].firstChild.data)
+        ymax = float(root.getElementsByTagName("ymax")[id].firstChild.data)
+        typeId = class2num[type]
+        ans_set.append(Result(0, typeId, 0, xmin, xmax, ymin, ymax))
+    return ans_set

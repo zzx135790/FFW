@@ -6,8 +6,9 @@ model = None
 
 def load_model():
     global model
-    if os.path.exists(output_model):
+    if model is None and os.path.exists(output_model):
         model = torch.load(output_model)
+        model.eval()
     else:
         return
 

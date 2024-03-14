@@ -24,6 +24,7 @@ def evaluate_accuracy(data_iter, net):
 def train_model(net, train_iter, test_iter, loss, num_epochs, batch_size, params=None, lr=None, optimizer=None):
     for epoch in range(num_epochs):  # 迭代训练轮数
         # 初始化本轮训练损失、训练准确率、样本数量
+        net.train()
         train_l_sum, train_acc_sum, n = 0.0, 0.0, 0
         for X, y in train_iter:  # 迭代每个小批量
             y_hat = net(X)  # 前向传播计算预测值
@@ -49,6 +50,7 @@ def train_model(net, train_iter, test_iter, loss, num_epochs, batch_size, params
             train_acc_sum += (y_hat.argmax(dim=1) == y).sum().item()  # 累计本轮训练正确预测样本数
             n += y.shape[0]  # 累计本轮训练样本数
 
+        net.eval()
         test_acc = evaluate_accuracy(test_iter, net)  # 计算测试准确率
         # 输出本轮训练和测试信息
         print('epoch %d, loss %.4f, train acc %.3f, test acc %.3f'
@@ -81,7 +83,10 @@ def train():
     num_outputs = num_detect
 
     # 创建网络
-    net = nn.Sequential(nn.Linear(num_inputs, num_outputs))
+    net = nn.Sequential(
+        nn.Linear(num_inputs, num_outputs),
+        nn.Dropout(0.2)
+    )
 
     # 初始化权重参数
     init.normal_(net[0].weight, mean=0, std=0.01)  # 权重
@@ -93,6 +98,6 @@ def train():
     # 随机梯度下降优化算法
     optimizer = torch.optim.SGD(net.parameters(), lr=0.1)
 
-    train_model(net, trainloader, valloader, loss, 100, batch_size, None, None, optimizer)
+    train_model(net, trainloader, valloader, loss, 20, batch_size, None, None, optimizer)
 
     torch.save(net, output_model)

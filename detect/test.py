@@ -1,8 +1,10 @@
-from .confirm import overlop
+from .confirm import overlop, confirm
 from .receive import Result
-from .common import model_classes
+from .common import model_classes, xml_dir, read_box_from_xml, num_detect
+import matplotlib.pyplot as plt
+import numpy as np
 import os
-import xml.dom.minidom
+
 
 
 def test_model(file):
@@ -37,65 +39,112 @@ def test_model(file):
         )
 
     #
-    TP = 0
-    FP = 0
-    FN = 0
+    tp = 0
+    fp = 0
+    fn = 0
     # 处理每个图像
     for image_name, boxes in image_boxes.items():
-        xmlDir = "C:\\Users\\zzx123\\Desktop\\work\\竞赛\\服务外包\\2024中国大学生服务外包创新创业大赛data\\train_xmls"
-        xml_path = os.path.join(xmlDir, os.path.splitext(image_name)[0] + ".xml")
-        dom = xml.dom.minidom.parse(xml_path)
-        root = dom.documentElement
-        ans_set = []
-        for id in range(len(root.getElementsByTagName("name"))):
-            type = root.getElementsByTagName("name")[id].firstChild.data
-            xmin = float(root.getElementsByTagName("xmin")[id].firstChild.data)
-            ymin = float(root.getElementsByTagName("ymin")[id].firstChild.data)
-            xmax = float(root.getElementsByTagName("xmax")[id].firstChild.data)
-            ymax = float(root.getElementsByTagName("ymax")[id].firstChild.data)
-            typeId = class2num[type]
-            ans_set.append(Result(0, typeId, 0, xmin, xmax, ymin, ymax))
+        xml_path = os.path.join(xml_dir, os.path.splitext(image_name)[0] + ".xml")
+        ans_set = read_box_from_xml(xml_path)
         for result in boxes:
             pre_flag = False
             for right in ans_set:
                 if overlop(result, right, 0.5):
                     if right.cls == result.cls:
-                        TP += 1
+                        tp += 1
                         pre_flag = True
                         break
             if not pre_flag:
-                FP += 1
+                fp += 1
 
     # val_set = read_jpg_files("C:\\Users\\zzx123\\Desktop\\work\\temp")
     for filename in os.listdir("C:\\Users\\zzx123\\Desktop\\work\\temp"):
-        xmlDir = "C:\\Users\\zzx123\\Desktop\\work\\竞赛\\服务外包\\2024中国大学生服务外包创新创业大赛data\\train_xmls"
-        xml_path = os.path.join(xmlDir, os.path.splitext(filename)[0] + ".xml")
-        dom = xml.dom.minidom.parse(xml_path)
-        root = dom.documentElement
-        ans_set = []
-        for id in range(len(root.getElementsByTagName("name"))):
-            type = root.getElementsByTagName("name")[id].firstChild.data
-            xmin = float(root.getElementsByTagName("xmin")[id].firstChild.data)
-            ymin = float(root.getElementsByTagName("ymin")[id].firstChild.data)
-            xmax = float(root.getElementsByTagName("xmax")[id].firstChild.data)
-            ymax = float(root.getElementsByTagName("ymax")[id].firstChild.data)
-            typeId = class2num[type]
-            ans_set.append(Result(0, typeId, 0, xmin, xmax, ymin, ymax))
-
+        xml_path = os.path.join(xml_dir, os.path.splitext(image_name)[0] + ".xml")
+        ans_set = read_box_from_xml(xml_path)
         for right in ans_set:
-            Iou_flag = False
+            iou_flag = False
             for result in image_boxes.get(filename, []):
                 if overlop(result, right, 0.5):
-                    Iou_flag = True
+                    iou_flag = True
                     break
-            if not Iou_flag:
-                FN += 1
+            if not iou_flag:
+                fn += 1
 
-    precision = TP / (TP + FP)
-    recall = TP / (TP+FN)
-    print('\nTP=' + str(TP))
-    print('FP=' + str(FP))
-    print('FN=' + str(FN))
+    precision = tp / (tp + fp)
+    recall = tp / (tp+fn)
+    print('\ntp=' + str(tp))
+    print('fp=' + str(fp))
+    print('fn=' + str(fn))
     print('precision=' + str(precision))
     print('recall=' + str(recall))
+
+
+# 计算整体的mAP
+def get_map(all_resutls:[]):
+    pr_result = [[(0.0, 1.0)] for i in range(num_detect)]
+    fig = plt.figure(figsize=(4, 4), dpi=400)
+    plt.xlabel('precision')
+    plt.ylabel('recall')
+    plt.grid(True)
+    for score in np.arange(0, 1, 0.05):
+        tp = {cid: 0 for cid in range(num_detect)}
+        fp = {cid: 0 for cid in range(num_detect)}
+        fn = {cid: 0 for cid in range(num_detect)}
+        for result in all_resutls:
+            xml_path = os.path.join(xml_dir, os.path.splitext(result[0])[0] + ".xml")
+            ans_set = read_box_from_xml(xml_path)
+            for box in result[1]:
+                if box.score < score or box.cls == 5:
+                    continue
+                pre_flag = False
+                for right_box in ans_set:
+                    if overlop(box, right_box, 0.5) and right_box.cls == box.cls:
+                        tp[box.cls] += 1
+                        tp[5] += 1
+                        pre_flag = True
+                        break
+                if not pre_flag:
+                    fp[box.cls] += 1
+                    fp[5] += 1
+
+            for right_box in ans_set:
+                iou_flag = False
+                for box in result[1]:
+                    if box.score > score and box.cls != 5 and overlop(box, right_box, 0.5):
+                        iou_flag = True
+                        break
+                if not iou_flag:
+                    fn[right_box.cls] += 1
+                    fn[5] += 1
+        for cid in range(num_detect):
+            if tp[cid]+fn[cid] == 0:
+                recall = 0
+            else:
+                recall = tp[cid]/(tp[cid]+fn[cid])
+
+            if tp[cid]+fp[cid] == 0:
+                precision = 0
+            else:
+                precision = tp[cid]/(tp[cid]+fp[cid])
+
+            pr_result[cid].append((recall, precision))
+
+    for cid in range(num_detect):
+        ap = 0
+        pr_result[cid] = sorted(pr_result[cid], key=lambda x: (x[0], -x[1]))
+        pr_result[cid].append((1.0, 0))
+        for i in range(1, len(pr_result[cid])):
+            ap += pr_result[cid][i][1] * (pr_result[cid][i][0] - pr_result[cid][i-1][0])
+        if cid == 5:
+            print(f"mAP= {ap}")
+            title = "mAP"
+        else:
+            print(f"{model_classes[cid]} ap= {ap}")
+            title = model_classes[cid]
+        x = [pt[0] for pt in pr_result[cid]]
+        y = [pt[1] for pt in pr_result[cid]]
+        plt.plot(x, y, label=title)
+    plt.legend()
+    plt.show()
+    fig.savefig("pr.jpg")
 
