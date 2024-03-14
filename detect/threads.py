@@ -14,7 +14,7 @@ class YoloThread(threading.Thread):
         self.mid = mid
 
     def run(self):
-        yolo_results = self.model(self.pic_path)
+        yolo_results = self.model(self.pic_path, verbose=False)
         xyxy = yolo_results[0].boxes.xyxy.cpu().numpy()
         cls = yolo_results[0].boxes.cls.cpu().numpy()
         conf = yolo_results[0].boxes.conf.cpu().numpy()
