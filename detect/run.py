@@ -8,6 +8,9 @@ from detect.softmax.makeset import mk_set, cln_set
 from detect.softmax.tempfile import train_img_dir, train_data, val_data, train_set, val_set
 from ultralytics import YOLO
 from mmdet.apis import init_detector
+from tqdm import tqdm
+from io import StringIO
+import sys
 import os
 
 
@@ -33,12 +36,25 @@ def run(mode='detect'):
         file_list = read_jpg_files(test_dir)
         all_results = []
 
+    old_stdout = sys.stdout
+    old_stderr = sys.stderr
+    sys.stdout = StringIO()
+    sys.stderr = StringIO()
+
     for i in range(num_model):
         if config_path[i] == '':
             model_list[i] = YOLO(models_path[i])
         else:
             model_list[i] = init_detector(config_path[i], models_path[i], device='cuda:0')
-    for file in file_list:
+
+    sys.stdout = old_stdout
+    sys.stderr = old_stderr
+
+    for file in tqdm(file_list, desc='Processing', unit='items'):
+        old_stdout = sys.stdout
+        old_stderr = sys.stderr
+        sys.stdout = StringIO()
+        sys.stderr = StringIO()
         single_results = []
         for i in range(num_model):
             if config_path[i] == '':
@@ -58,6 +74,9 @@ def run(mode='detect'):
             output_dataset(os.path.basename(file), single_results)
         elif mode == "mAP":
             all_results.append((os.path.basename(file), confirm(os.path.basename(file), single_results, "mAP")))
+
+        sys.stdout = old_stdout
+        sys.stderr = old_stderr
 
     if mode == "mAP":
         get_map(all_results)
