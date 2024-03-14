@@ -35,17 +35,17 @@ weight_dict = {
 # model_config路径，目前是co-detr会使用
 config_path = [
     '',
-    '',
-    "C:\\Users\\zzx123\\Desktop\\gitpro\\Co-DETR\\work_dirs\\swinb-gc\\swinb-GC.py",
-    "C:\\Users\\zzx123\\Desktop\\gitpro\\Co-DETR\\work_dirs\\dino-r101-ohem\\co_dino_r101_OHEM.py"
+    '/mnt/workspace/Co-detr/work_dirs/swin-b/gc/swinb-GC.py',
+    "/mnt/workspace/Co-detr/work_dirs/codetr_r50_size/codetr_r101_size.py",
+    "/mnt/workspace/Co-detr/work_dirs/swin-b/deroi/swinb-deroi.py"
 ]
 
 # model路径
 models_path = [
-    "C:\\Users\\zzx123\\Desktop\\work\\竞赛\\服务外包\\模型\\小权重\\best.pt",
-    "C:\\Users\\zzx123\\Desktop\\work\\竞赛\\服务外包\\模型\\大权重dropout0.1\\best.pt",
-    "C:\\Users\\zzx123\\Desktop\\gitpro\\Co-DETR\\work_dirs\\swinb-gc\\best_bbox_mAP_epoch_3.pth",
-    "C:\\Users\\zzx123\\Desktop\\gitpro\\Co-DETR\\work_dirs\\dino-r101-ohem\\best_bbox_mAP_epoch_8.pth"
+    "/mnt/workspace/Co-detr/work_dirs/yolo/yolov8n.pt",
+    "/mnt/workspace/Co-detr/work_dirs/swin-b/gc/best_bbox_mAP_epoch_3.pth",
+    "/mnt/workspace/Co-detr/work_dirs/codetr_r50_size/best_bbox_mAP_epoch_12.pth",
+    "/mnt/workspace/Co-detr/work_dirs/swin-b/deroi/best_bbox_mAP_epoch_4.pth"
 ]
 
 # 输出文件的路径
@@ -61,9 +61,10 @@ model_classes = ['good', 'broke', 'lose', 'uncovered', 'circle']
 temp_dir = './temp/'
 
 # 测试的目标文件夹
-test_dir = "C:\\Users\\zzx123\\Desktop\\work\\temp"
+test_dir = "/mnt/workspace/temp/images/val"
+
 # 测试使用的目标框文件夹，注意是voc格式的信息，全部放在一个文件夹下
-xml_dir = "F:\\ffwb\\we_data\\data_xml\\ori_val"
+xml_dir = "/mnt/workspace/xml_data/Annotations"
 
 
 # 程序错误退出的函数
