@@ -19,7 +19,7 @@ train_ratio = 0.9
 train_img_dir = "C:\\Users\\zzx123\\Desktop\\work\\temp2"
 
 # 储存训练信息的目录
-train_xml_dir = "F:\\ffwb\\we_data\\origin_data\\xml"
+train_xml_dir = "/mnt/workspace/xml_data/Annotations"
 
 
 

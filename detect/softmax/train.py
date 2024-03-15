@@ -67,7 +67,7 @@ def train():
             if exc.errno != os.errno.EEXIST:
                 raise
 
-    batch_size = 1
+    batch_size = 10
     if sys.platform.startswith('win'):
         num_workers = 0  # 0表示不用额外的进程来加速读取数据
     else:
@@ -96,7 +96,7 @@ def train():
     loss = nn.CrossEntropyLoss()
 
     # 随机梯度下降优化算法
-    optimizer = torch.optim.SGD(net.parameters(), lr=0.1)
+    optimizer = torch.optim.SGD(net.parameters(), lr=0.05)
 
     train_model(net, trainloader, valloader, loss, 20, batch_size, None, None, optimizer)
 

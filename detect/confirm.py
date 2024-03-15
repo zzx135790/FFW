@@ -32,11 +32,9 @@ def ratio_path(single_best: []):
     return sort_ans
 
 
-# 使用wbf进行框融合
-def wbf(results: [], method, thod):
-    def get_score(result: Result) -> []:
-        filp_data = [[0.0 for _ in common.num_model] for _ in common.num_detect]
-        filp_data[result.cls] = [1.0 for _ in common.num_model]
+def get_score(result: Result, method) -> Result:
+        filp_data = [[0.0 for _ in range(common.num_model)] for _ in range(common.num_detect)]
+        # filp_data[result.cls] = [1.0 for _ in range(common.num_model)]
         filp_data[result.cls][result.mid] = result.score
         if method == "model":
             result.score = model_path(filp_data)[result.cls]
@@ -44,16 +42,24 @@ def wbf(results: [], method, thod):
             result.score = ratio_path(filp_data)[result.cls]
         return result
 
+
+# 使用wbf进行框融合
+def wbf(results: [], method, num):
+    if not len(results):
+        return Result()
+        
     for i in range(len(results)):
-        results[i] = get_score(results[i])
+        results[i] = get_score(results[i], method)
 
     results.sort(key=lambda x: x.score, reverse=True)
 
     ans_box = results[0]
 
+    c = 0
     for re in results:
-        if re.score < thod:
+        if c >= num:
             break
+        c += 1
         ans_box.xmin = (ans_box.xmin * ans_box.score + re.xmin * re.score) / (ans_box.score + re.score)
         ans_box.ymin = (ans_box.ymin * ans_box.score + re.ymin * re.score) / (ans_box.score + re.score)
         ans_box.xmax = (ans_box.xmax * ans_box.score + re.xmax * re.score) / (ans_box.score + re.score)
@@ -95,12 +101,25 @@ def single(results: [], method) -> Result:
         for result in results:
             if result.cls == ans_cls:
                 cls_result.append(result)
-        ans = wbf(cls_result, method, max_score)
+        ans = wbf(cls_result, method, 2)
+        ans.score = max_score
         return ans
-
+        # ans = Result()
+        # for result in results:
+        #     if result.cls == ans_cls:
+        #         temp_ans = get_score(result, method)
+        #         if temp_ans.score > ans.score:
+        #             ans = temp_ans
+        # return ans
+        # ans = Result()
+        # for result in results:
+        #     if result.cls == ans_cls and result.score > ans.score:
+        #         ans = result
+        # ans.score = max_score
+        # return ans
 
 # 用于对所有的模型的结果进行验证，
-def confirm(name, results: [], mode="detect", method="model"):
+def confirm(name, results: [], mode="detect", method="ratio"):
     had_sort = {i: False for i in range(len(results))}
     results.sort(key=lambda x: x.score, reverse=True)
     overlop_set = []
@@ -124,7 +143,6 @@ def confirm(name, results: [], mode="detect", method="model"):
         output_file(name, output_results)
     elif mode == "model" or mode == "mAP":
         return output_results
-
 
 # 输出到文件
 def output_file(name, output_results):
