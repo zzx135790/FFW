@@ -32,6 +32,37 @@ def ratio_path(single_best: []):
     return sort_ans
 
 
+# 使用wbf进行框融合
+def wbf(results: [], method, thod):
+    def get_score(result: Result) -> []:
+        filp_data = [[0.0 for _ in common.num_model] for _ in common.num_detect]
+        filp_data[result.cls] = [1.0 for _ in common.num_model]
+        filp_data[result.cls][result.mid] = result.score
+        if method == "model":
+            result.score = model_path(filp_data)[result.cls]
+        elif method == "ratio":
+            result.score = ratio_path(filp_data)[result.cls]
+        return result
+
+    for i in range(len(results)):
+        results[i] = get_score(results[i])
+
+    results.sort(key=lambda x: x.score, reverse=True)
+
+    ans_box = results[0]
+
+    for re in results:
+        if re.score < thod:
+            break
+        ans_box.xmin = (ans_box.xmin * ans_box.score + re.xmin * re.score) / (ans_box.score + re.score)
+        ans_box.ymin = (ans_box.ymin * ans_box.score + re.ymin * re.score) / (ans_box.score + re.score)
+        ans_box.xmax = (ans_box.xmax * ans_box.score + re.xmax * re.score) / (ans_box.score + re.score)
+        ans_box.ymax = (ans_box.ymax * ans_box.score + re.ymax * re.score) / (ans_box.score + re.score)
+        ans_box.score = (ans_box.score + re.score) / 2
+
+    return ans_box
+
+
 def single(results: [], method) -> Result:
     appear_model = {i: False for i in range(common.num_model)}
     single_model_best = [[0.0 for i in range(common.num_model)] for i in range(common.num_detect)]
@@ -60,11 +91,11 @@ def single(results: [], method) -> Result:
     if ans_cls == 5:
         return Result(0, 5, max_score, 0, 0, 0, 0)
     else:
-        ans = Result()
+        cls_result = []
         for result in results:
-            if result.cls == ans_cls and result.score * common.weight_dict[result.mid][int(result.cls)] > ans.score:
-                ans = result
-        ans.score = max_score
+            if result.cls == ans_cls:
+                cls_result.append(result)
+        ans = wbf(cls_result, method, max_score)
         return ans
 
 
