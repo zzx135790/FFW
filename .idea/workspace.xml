@@ -5,19 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="266e99af-eb60-49d0-8d55-e4726f2e1aee" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/detect/tta.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/utils.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/utils.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/pr-checkpoint.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/start-checkpoint.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/temp-checkpoint.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detect/.ipynb_checkpoints/confirm-checkpoint.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detect/.ipynb_checkpoints/receive-checkpoint.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detect/.ipynb_checkpoints/run-checkpoint.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/common.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/run.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detect/threads.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/threads.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/other/.ipynb_checkpoints/cpower-checkpoint.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect/tta.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/tta.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/other/dataEnhance.py" beforeDir="false" afterPath="$PROJECT_DIR$/other/dataEnhance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pr.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/pr.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/start.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/temp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_fastrcnn.txt" beforeDir="false" afterPath="$PROJECT_DIR$/other/txt2img.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,18 +36,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\zzx123\Desktop\work\竞赛\服务外包\utils\detect" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -60,13 +62,30 @@
       <option name="presentableId" value="Default" />
       <updated>1710581735745</updated>
       <workItem from="1710581737639" duration="5128000" />
+      <workItem from="1710660535684" duration="5235000" />
+      <workItem from="1710729796120" duration="7482000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/detect/confirm.py</url>
+          <line>133</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/utils$temp.coverage" NAME="temp 覆盖结果" MODIFIED="1710586517615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/utils$run.coverage" NAME="run 覆盖结果" MODIFIED="1710732031900" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/detect" />
+    <SUITE FILE_PATH="coverage/utils$start.coverage" NAME="start 覆盖结果" MODIFIED="1710735670435" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/utils$dataEnhance.coverage" NAME="dataEnhance 覆盖结果" MODIFIED="1710730053168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/other" />
+    <SUITE FILE_PATH="coverage/utils$txt2img.coverage" NAME="txt2img 覆盖结果" MODIFIED="1710732060044" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/other" />
+    <SUITE FILE_PATH="coverage/utils$temp.coverage" NAME="temp 覆盖结果" MODIFIED="1710732752187" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

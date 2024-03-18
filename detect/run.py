@@ -49,8 +49,8 @@ def run(mode='detect'):
     sys.stderr = old_stderr
 
     for file in tqdm(file_list, desc='images detection', unit='items'):
-        old_stderr = sys.stderr
-        sys.stderr = StringIO()
+        # old_stderr = sys.stderr
+        # sys.stderr = StringIO()
         single_results = []
         for i in range(num_model):
             if config_path[i] == '':
@@ -71,7 +71,7 @@ def run(mode='detect'):
         elif mode == "mAP":
             all_results.append((os.path.basename(file), confirm(os.path.basename(file), single_results, "mAP")))
 
-        sys.stderr = old_stderr
+        # sys.stderr = old_stderr
 
     if mode == "mAP":
         get_map(all_results)

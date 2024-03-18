@@ -64,9 +64,9 @@ def copy_annotation(xml_path, output_xml_path, output_img_path):
     tree.write(output_xml_path, encoding='utf-8', xml_declaration=True)
 
 
-imgfile = "C:\\Users\\zzx123\\Desktop\\work\\竞赛\\服务外包\\2024中国大学生服务外包创新创业大赛data\\train"
-goalDir = "C:\\Users\\zzx123\\Desktop\\work\\竞赛\\服务外包\\2024中国大学生服务外包创新创业大赛data\\train_txt"
-originDir = "C:\\Users\\zzx123\\Desktop\\work\\竞赛\\服务外包\\2024中国大学生服务外包创新创业大赛data\\train_xmls"
+imgfile = "F:/ffwb/we_data/data_xml/ori_val"
+goalDir = "F:/ffwb/we_data/data_xml/ori_val"
+originDir = "F:/ffwb/we_data/data_xml/ori_val_rotate"
 for ori, dirs, files in os.walk(originDir):
     for file in files:
         of = os.path.join(ori, file)
@@ -75,20 +75,19 @@ for ori, dirs, files in os.walk(originDir):
         imgWid = float(root.getElementsByTagName("width")[0].firstChild.data)
         imgHei = float(root.getElementsByTagName("height")[0].firstChild.data)
 
-        filename, prefix_xml = os.path.splitext(file)
-        filename = filename+"_dark"
-
-        relPath = root.getElementsByTagName("path")[0].firstChild.data
-        OriImgPath = os.path.abspath(os.path.join(os.path.dirname(of), relPath))
-        GoalImgPath = os.path.join(os.path.dirname(OriImgPath), filename+".jpg")
-        GoalXmlPath = os.path.join(ori, filename+".xml")
-        decrease_brightness(OriImgPath, GoalImgPath)
-        copy_annotation(of, GoalXmlPath, GoalImgPath)
-
         # filename, prefix_xml = os.path.splitext(file)
-        # filename = filename + "_rotate"
+        # filename = filename+"_dark"
         # relPath = root.getElementsByTagName("path")[0].firstChild.data
         # OriImgPath = os.path.abspath(os.path.join(os.path.dirname(of), relPath))
-        # GoalImgPath = os.path.join(os.path.dirname(OriImgPath), filename + ".jpg")
-        # GoalXmlPath = os.path.join(ori, filename + ".xml")
-        # update_annotation(of, GoalXmlPath, rotate_image(OriImgPath, GoalImgPath, 90), 90, GoalImgPath)
+        # GoalImgPath = os.path.join(os.path.dirname(OriImgPath), filename+".jpg")
+        # GoalXmlPath = os.path.join(ori, filename+".xml")
+        # decrease_brightness(OriImgPath, GoalImgPath)
+        # copy_annotation(of, GoalXmlPath, GoalImgPath)
+
+        filename, prefix_xml = os.path.splitext(file)
+        filename = filename + "_rotate"
+        relPath = root.getElementsByTagName("path")[0].firstChild.data
+        OriImgPath = os.path.abspath(os.path.join(os.path.dirname(of), relPath))
+        GoalImgPath = os.path.join(os.path.dirname(OriImgPath), filename + ".jpg")
+        GoalXmlPath = os.path.join(ori, filename + ".xml")
+        update_annotation(of, GoalXmlPath, rotate_image(OriImgPath, GoalImgPath, 90), 90, GoalImgPath)
