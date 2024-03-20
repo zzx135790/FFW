@@ -21,7 +21,7 @@ def evaluate_accuracy(data_iter, net):
     return acc_sum / n
 
 
-def train_model(net, train_iter, test_iter, loss, num_epochs, batch_size, params=None, lr=None, optimizer=None):
+def train_model(net, train_iter, test_iter, loss, num_epochs, batch_size, params=None, lr=None, optimizer=None, scheduler=None):
     for epoch in range(num_epochs):  # 迭代训练轮数
         # 初始化本轮训练损失、训练准确率、样本数量
         net.train()
@@ -45,7 +45,7 @@ def train_model(net, train_iter, test_iter, loss, num_epochs, batch_size, params
                     param.data -= lr * param.grad / batch_size  # 注意这里更改param时用的param.data
             else:
                 optimizer.step()  # 使用优化器更新模型参数
-
+                # scheduler.step()
             train_l_sum += l.item()  # 累计本轮训练损失
             train_acc_sum += (y_hat.argmax(dim=1) == y).sum().item()  # 累计本轮训练正确预测样本数
             n += y.shape[0]  # 累计本轮训练样本数
@@ -85,7 +85,7 @@ def train():
     # 创建网络
     net = nn.Sequential(
         nn.Linear(num_inputs, num_outputs),
-        nn.Dropout(0.2)
+        nn.Dropout(0.5)
     )
 
     # 初始化权重参数
@@ -97,7 +97,10 @@ def train():
 
     # 随机梯度下降优化算法
     optimizer = torch.optim.SGD(net.parameters(), lr=0.05)
+    
+    # 梯度下降算法
+    # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.5)
 
-    train_model(net, trainloader, valloader, loss, 20, batch_size, None, None, optimizer)
+    train_model(net, trainloader, valloader, loss, 30, batch_size, None, None, optimizer)
 
     torch.save(net, output_model)

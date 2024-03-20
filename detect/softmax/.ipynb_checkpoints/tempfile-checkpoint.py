@@ -16,7 +16,7 @@ val_data = os.path.join(temp_dir, 'val.data')
 train_ratio = 0.9
 
 # 储存训练图片的目录
-train_img_dir = "/mnt/workspace/xml_data/Annotations"
+train_img_dir = "/mnt/workspace/xml_data/Images"
 
 # 储存训练信息的目录
 train_xml_dir = "/mnt/workspace/xml_data/Annotations"
