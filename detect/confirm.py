@@ -33,21 +33,21 @@ def ratio_path(single_best: []):
 
 
 def get_score(result: Result, method) -> Result:
-        filp_data = [[0.0 for _ in range(common.num_model)] for _ in range(common.num_detect)]
-        # filp_data[result.cls] = [1.0 for _ in range(common.num_model)]
-        filp_data[result.cls][result.mid] = result.score
-        if method == "model":
-            result.score = model_path(filp_data)[result.cls]
-        elif method == "ratio":
-            result.score = ratio_path(filp_data)[result.cls]
-        return result
+    filp_data = [[0.0 for _ in range(common.num_model)] for _ in range(common.num_detect)]
+    # filp_data[result.cls] = [1.0 for _ in range(common.num_model)]
+    filp_data[result.cls][result.mid] = result.score
+    if method == "model":
+        result.score = model_path(filp_data)[0][result.cls]
+    elif method == "ratio":
+        result.score = ratio_path(filp_data)[0][result.cls]
+    return result
 
 
 # 使用wbf进行框融合
 def wbf(results: [], method, num):
     if not len(results):
         return Result()
-        
+
     for i in range(len(results)):
         results[i] = get_score(results[i], method)
 
@@ -118,6 +118,7 @@ def single(results: [], method) -> Result:
         # ans.score = max_score
         # return ans
 
+
 # 用于对所有的模型的结果进行验证，
 def confirm(name, results: [], mode="detect", method="ratio"):
     had_sort = {i: False for i in range(len(results))}
@@ -143,6 +144,7 @@ def confirm(name, results: [], mode="detect", method="ratio"):
         output_file(name, output_results)
     elif mode == "model" or mode == "mAP":
         return output_results
+
 
 # 输出到文件
 def output_file(name, output_results):
