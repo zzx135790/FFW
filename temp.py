@@ -63,15 +63,17 @@
 # print(TP/(TP+FP))
 
 
-# import detect.softmax.util as st
-# st.load_model()
-# result = [[0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [1.0, 0.0, 0.0, 1.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]]
-# print(st.softmax(st.get_sort(result)))
-# print(st.get_sort(result))
+import detect.softmax.util as st
+st.load_model()
+result = [[0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]]
 
-import cv2
-t = cv2.imread("F:/ffwb/we_data/data_xml/ori_val_rotate/broke011_rotate.jpg")
-t = cv2.rotate(t,cv2.ROTATE_90_CLOCKWISE)
-cv2.imshow("1",t)
-cv2.waitKey()
+
+# print(st.softmax(st.get_sort(result)))
+print(st.get_sort(result))
+
+# import cv2
+# t = cv2.imread("F:/ffwb/we_data/data_xml/ori_val_rotate/broke011_rotate.jpg")
+# t = cv2.rotate(t,cv2.ROTATE_90_CLOCKWISE)
+# cv2.imshow("1",t)
+# cv2.waitKey()
 

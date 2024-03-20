@@ -40,7 +40,8 @@ def get_score(result: Result, method) -> Result:
             temp_score = model_path(filp_data)
         elif method == "ratio":
             temp_score = ratio_path(filp_data)
-        result.score = temp_score[result.cls]
+        result.cls = temp_score.argmax(dim=1)
+        result.score = temp_score[0][result.cls]
         return result
 
 
