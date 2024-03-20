@@ -104,6 +104,6 @@ def train():
     # 随机梯度下降优化算法
     optimizer = torch.optim.SGD(net.parameters(), lr=0.05)
     # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.1)
-    train_model(net, trainloader, valloader, loss, 60, batch_size, None, None, optimizer)
+    train_model(net, trainloader, valloader, loss, 30, batch_size, None, None, optimizer)
 
     torch.save(net, output_model)

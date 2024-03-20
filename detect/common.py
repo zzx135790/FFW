@@ -83,12 +83,12 @@ model_classes = ['good', 'broke', 'lose', 'uncovered', 'circle']
 temp_dir = './temp/'
 
 # 测试的目标文件夹
-# test_dir = "/mnt/workspace/temp/images/val"
-test_dir = "F:/ffwb/we_data/data_xml/ori_val_rotate"
+test_dir = "/mnt/workspace/temp/images/val"
+# test_dir = "F:/ffwb/we_data/data_xml/ori_val_rotate"
 
 # 测试使用的目标框文件夹，注意是voc格式的信息，全部放在一个文件夹下
-# xml_dir = "/mnt/workspace/xml_data/Annotations"
-xml_dir = "F:/ffwb/we_data/data_xml/ori_val_rotate"
+xml_dir = "/mnt/workspace/xml_data/Annotations"
+# xml_dir = "F:/ffwb/we_data/data_xml/ori_val_rotate"
 
 
 # 程序错误退出的函数

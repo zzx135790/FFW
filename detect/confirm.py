@@ -2,7 +2,6 @@ from .receive import Result
 from . import common
 from .softmax.util import get_sort, load_model
 
-
 # 用于判断两个框的重叠部分是否大于threshold
 def overlop(area1: Result, area2: Result, threshold: float) -> bool:
     overlap_width = max(0, min(area1.xmax, area2.xmax) - max(area1.xmin, area2.xmin))
@@ -37,9 +36,9 @@ def get_score(result: Result, method) -> Result:
     # filp_data[result.cls] = [1.0 for _ in range(common.num_model)]
     filp_data[result.cls][result.mid] = result.score
     if method == "model":
-        result.score = model_path(filp_data)[0][result.cls]
+        result.score = model_path(filp_data).max().item()
     elif method == "ratio":
-        result.score = ratio_path(filp_data)[0][result.cls]
+        result.score = ratio_path(filp_data)[result.cls]
     return result
 
 
@@ -69,6 +68,27 @@ def wbf(results: [], method, num):
     return ans_box
 
 
+# 得到一个局域内所有的数据
+def area_data(results: []):
+    appear_model = {i: False for i in range(common.num_model)}
+    single_model_best = [[0.0 for i in range(common.num_model)] for i in range(common.num_detect)]
+    max_score = 0
+    ans_boxes = [0, 0, 0, 0]
+    for result in results:
+        appear_model[result.mid] = True
+        if result.score > single_model_best[int(result.cls)][result.mid]:
+            single_model_best[int(result.cls)][result.mid] = result.score
+        if result.score > max_score:
+            max_score = result.score
+            ans_boxes = [result.xmin, result.ymin, result.xmax, result.ymax]
+
+    for blank, key in appear_model.items():
+        if not key:
+            single_model_best[5][blank] = 1.0
+
+    return ans_boxes, single_model_best
+
+
 def single(results: [], method) -> Result:
     appear_model = {i: False for i in range(common.num_model)}
     single_model_best = [[0.0 for i in range(common.num_model)] for i in range(common.num_detect)]
@@ -86,14 +106,15 @@ def single(results: [], method) -> Result:
 
     if method == "model":
         temp_ans = model_path(single_model_best)
+        ans_cls = temp_ans.argmax(dim=1).item()
     elif method == "ratio":
         temp_ans = ratio_path(single_model_best)
+        for i in range(common.num_detect):
+            if temp_ans[i] > max_score:
+                max_score = temp_ans[i]
+                ans_cls = i
 
-    for i in range(common.num_detect):
-        if temp_ans[i] > max_score:
-            max_score = temp_ans[i]
-            ans_cls = i
-
+    
     if ans_cls == 5:
         return Result(0, 5, max_score, 0, 0, 0, 0)
     else:
@@ -101,7 +122,7 @@ def single(results: [], method) -> Result:
         for result in results:
             if result.cls == ans_cls:
                 cls_result.append(result)
-        ans = wbf(cls_result, method, 2)
+        ans = wbf(cls_result, method, 3)
         ans.score = max_score
         return ans
         # ans = Result()
@@ -120,7 +141,7 @@ def single(results: [], method) -> Result:
 
 
 # 用于对所有的模型的结果进行验证，
-def confirm(name, results: [], mode="detect", method="ratio"):
+def confirm(name, results: [], mode="detect", method="model"):
     had_sort = {i: False for i in range(len(results))}
     results.sort(key=lambda x: x.score, reverse=True)
     overlop_set = []
@@ -138,11 +159,14 @@ def confirm(name, results: [], mode="detect", method="ratio"):
 
     output_results = []
     for page in overlop_set:
-        output_results.append(single(page, method))
+        if mode == 'train_mmodel':
+            output_results.append(area_data(page))
+        else:
+            output_results.append(single(page, method))
 
     if mode == "detect":
         output_file(name, output_results)
-    elif mode == "model" or mode == "mAP":
+    elif mode == "model" and mode == 'train_mmodel':
         return output_results
 
 

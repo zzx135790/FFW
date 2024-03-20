@@ -136,7 +136,7 @@ def cln_set():
             parts = line.strip().split()
             cls = int(parts[num_model * num_detect])
             image_boxes[cls] += 1
-            # num_dont = float(parts[20]) + float(parts[21]) + float(parts[22]) + float(parts[23])
+            # num_dont = float(parts[num_model*(num_detect-1)]) + float(parts[num_model*(num_detect-1)+1]) + float(parts[num_model*(num_detect-1)+2]) + float(parts[num_model*(num_detect-1)+3])
             if cls == 4 and random.random() >= cls_ratio[4]:
                 output_list.append(line)
                 output_list.append(line)
@@ -145,7 +145,8 @@ def cln_set():
             elif cls == 3 and random.random() < cls_ratio[3]:
                 pass
             elif cls == 5 and random.random() < cls_ratio[5]:
-                pass
+                if float(parts[num_model*(num_detect-1)]) + float(parts[num_model*(num_detect-1)+1]) + float(parts[num_model*(num_detect-1)+2]) + float(parts[num_model*(num_detect-1)+3]) > 2:
+                    pass
             else:
                 output_list.append(line)
 

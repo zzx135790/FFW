@@ -12,9 +12,9 @@ def tta_in(ori_img):
     """
     # print("tta_in")
     return [ori_img,
-            cv2.flip(ori_img, 0),
+            # cv2.flip(ori_img, 0),
             # cv2.flip(ori_img, 1)]
-            cv2.rotate(ori_img, cv2.ROTATE_90_CLOCKWISE),
+            # cv2.rotate(ori_img, cv2.ROTATE_90_CLOCKWISE),
             # cv2.rotate(ori_img, cv2.ROTATE_180),
             # cv2.rotate(ori_img, cv2.ROTATE_90_COUNTERCLOCKWISE)
            ]
@@ -25,12 +25,12 @@ def tta_out(results: list, w, h) -> list:
     # 原始图像直接转换
     ans = [result for result in results[0]]
 
-    # 垂直翻转转换
-    for result in results[1]:
-        x2max, x2min, y2min, y2max = result.xmax, result.xmin, result.ymin, result.ymax
-        result.ymin = h - y2max
-        result.ymax = h - y2min
-        ans.append(result)
+    # # 垂直翻转转换
+    # for result in results[1]:
+    #     x2max, x2min, y2min, y2max = result.xmax, result.xmin, result.ymin, result.ymax
+    #     result.ymin = h - y2max
+    #     result.ymax = h - y2min
+    #     ans.append(result)
 
     # # 水平翻转转换
     # for result in results[2]:
@@ -39,14 +39,14 @@ def tta_out(results: list, w, h) -> list:
     #     result.xmax = w - x2min
     #     ans.append(result)
 
-    # 90旋转转换
-    for result in results[2]:
-        x2max, x2min, y2min, y2max = result.xmax, result.xmin, result.ymin, result.ymax
-        result.xmin = y2min
-        result.xmax = y2max
-        result.ymin = h - x2max
-        result.ymax = h - x2min
-        ans.append(result)
+    # # 90旋转转换
+    # for result in results[2]:
+    #     x2max, x2min, y2min, y2max = result.xmax, result.xmin, result.ymin, result.ymax
+    #     result.xmin = y2min
+    #     result.xmax = y2max
+    #     result.ymin = h - x2max
+    #     result.ymax = h - x2min
+    #     ans.append(result)
 
 #     # 180旋转转换
 #     for result in results[4]:
