@@ -69,6 +69,27 @@ def wbf(results: [], method, num):
     return ans_box
 
 
+# 得到一个局域内所有的数据
+def area_data(results: []):
+    appear_model = {i: False for i in range(common.num_model)}
+    single_model_best = [[0.0 for i in range(common.num_model)] for i in range(common.num_detect)]
+    max_score = 0
+    ans_boxes = [0, 0, 0, 0]
+    for result in results:
+        appear_model[result.mid] = True
+        if result.score > single_model_best[int(result.cls)][result.mid]:
+            single_model_best[int(result.cls)][result.mid] = result.score
+        if result.score > max_score:
+            max_score = result.score
+            ans_boxes = [result.xmin, result.ymin, result.xmax, result.ymax]
+
+    for blank, key in appear_model.items():
+        if not key:
+            single_model_best[5][blank] = 1.0
+
+    return ans_boxes, single_model_best
+
+
 def single(results: [], method) -> Result:
     appear_model = {i: False for i in range(common.num_model)}
     single_model_best = [[0.0 for i in range(common.num_model)] for i in range(common.num_detect)]
@@ -137,11 +158,14 @@ def confirm(name, results: [], mode="detect", method="ratio"):
 
     output_results = []
     for page in overlop_set:
-        output_results.append(single(page, method))
+        if mode == 'train_mmodel':
+            output_results.append(area_data(page))
+        else:
+            output_results.append(single(page, method))
 
     if mode == "detect":
         output_file(name, output_results)
-    elif mode == "model" or mode == "mAP":
+    elif mode == "mAP" or mode == 'train_mmodel':
         return output_results
 
 # 输出到文件

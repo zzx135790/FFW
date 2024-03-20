@@ -28,7 +28,7 @@ def single(results: []):
 
 # 用于对所有的模型的结果进行验证，
 def output_dataset(name, results: []):
-    output_results = confirm(name, results, mode="model")
+    output_results = confirm(name, results, mode="train_mmodel")
     with open(train_data, 'a') as train_out:
         with open(val_data, 'a') as val_out:
             for output_result in output_results:
