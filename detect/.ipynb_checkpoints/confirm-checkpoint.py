@@ -37,19 +37,18 @@ def get_score(result: Result, method) -> Result:
         # filp_data[result.cls] = [1.0 for _ in range(common.num_model)]
         filp_data[result.cls][result.mid] = result.score
         if method == "model":
-            result.score = model_path(filp_data)[result.cls]
+            temp_score = model_path(filp_data)
         elif method == "ratio":
-            result.score = ratio_path(filp_data)[result.cls]
+            temp_score = ratio_path(filp_data)
+        # result.cls = int(temp_score.argmax(dim=1))
+        result.score = temp_score[0][result.cls]
         return result
 
 
 # 使用wbf进行框融合
-def wbf(results: [], method, num):
+def wbf(results: [], num):
     if not len(results):
         return Result()
-        
-    for i in range(len(results)):
-        results[i] = get_score(results[i], method)
 
     results.sort(key=lambda x: x.score, reverse=True)
 
@@ -70,57 +69,23 @@ def wbf(results: [], method, num):
 
 
 def single(results: [], method) -> Result:
-    appear_model = {i: False for i in range(common.num_model)}
-    single_model_best = [[0.0 for i in range(common.num_model)] for i in range(common.num_detect)]
-    max_score = 0
-    ans_cls = 0
+    fin_results = []
+    single_best = max(results, key=lambda x: x.score)
     for result in results:
-        appear_model[result.mid] = True
-        # sort_ans[int(result.cls)] += result.score * common.weight_dict[result.mid][int(result.cls)]
-        if result.score > single_model_best[int(result.cls)][result.mid]:
-            single_model_best[int(result.cls)][result.mid] = result.score
+        if result.cls == single_best.cls and result.score >= common.right_threshold:
+            fin_results.append(result)
 
-    for blank, key in appear_model.items():
-        if not key:
-            single_model_best[5][blank] = 1.0
-
-    if method == "model":
-        temp_ans = model_path(single_model_best)
-    elif method == "ratio":
-        temp_ans = ratio_path(single_model_best)
-
-    for i in range(common.num_detect):
-        if temp_ans[i] > max_score:
-            max_score = temp_ans[i]
-            ans_cls = i
-
-    if ans_cls == 5:
-        return Result(0, 5, max_score, 0, 0, 0, 0)
+    if single_best.cls == 5:
+        return Result(0, 5, single_best.score, 0, 0, 0, 0)
     else:
         cls_result = []
-        for result in results:
-            if result.cls == ans_cls:
-                cls_result.append(result)
-        ans = wbf(cls_result, method, 2)
-        ans.score = max_score
+        ans = wbf(fin_results, 2)
         return ans
-        # ans = Result()
-        # for result in results:
-        #     if result.cls == ans_cls:
-        #         temp_ans = get_score(result, method)
-        #         if temp_ans.score > ans.score:
-        #             ans = temp_ans
-        # return ans
-        # ans = Result()
-        # for result in results:
-        #     if result.cls == ans_cls and result.score > ans.score:
-        #         ans = result
-        # ans.score = max_score
-        # return ans
 
 
 # 用于对所有的模型的结果进行验证，
 def confirm(name, results: [], mode="detect", method="model"):
+    results = [get_score(r, method) for r in results]
     had_sort = {i: False for i in range(len(results))}
     results.sort(key=lambda x: x.score, reverse=True)
     overlop_set = []
