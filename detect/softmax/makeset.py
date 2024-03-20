@@ -17,8 +17,8 @@ class MyDataset(Dataset):
             for line in lines:
                 # 将行分割成各个部分
                 parts = line.strip().split()
-                self.data.append(torch.reshape(torch.Tensor(list(map(float, parts[0:24]))), [-1, num_detect, num_model]))
-                self.labels.append(int(parts[24]))
+                self.data.append(torch.reshape(torch.Tensor(list(map(float, parts[0:num_detect*num_model]))), [-1, num_detect, num_model]))
+                self.labels.append(int(parts[num_model*num_detect]))
         self.data = torch.stack(self.data)
 
     def __getitem__(self, idx):
@@ -128,22 +128,23 @@ def cln_set():
         # 存储每个图像的边界框信息
         image_boxes = {i: 0 for i in range(6)}
         output_list = []
-        cls_ratio = [0.6, 0, 0, 0.5, 0.25, 0.9]
+        cls_ratio = [0, 0, 0, 0.5, 0.25, 0.98]
 
         print("Before balance:")
         # 遍历文档中的每一行
         for line in lines:
             parts = line.strip().split()
-            image_boxes[int(parts[24])] += 1
+            cls = int(parts[num_model * num_detect])
+            image_boxes[cls] += 1
             # num_dont = float(parts[20]) + float(parts[21]) + float(parts[22]) + float(parts[23])
-            if int(parts[24]) == 4 and random.random() >= cls_ratio[4]:
+            if cls == 4 and random.random() >= cls_ratio[4]:
                 output_list.append(line)
                 output_list.append(line)
-            elif int(parts[24]) == 0 and random.random() < cls_ratio[0]:
+            elif cls == 0 and random.random() < cls_ratio[0]:
                 pass
-            elif int(parts[24]) == 3 and random.random() < cls_ratio[3]:
+            elif cls == 3 and random.random() < cls_ratio[3]:
                 pass
-            elif int(parts[24]) == 5 and random.random() < cls_ratio[5]:
+            elif cls == 5 and random.random() < cls_ratio[5]:
                 pass
             else:
                 output_list.append(line)
@@ -156,7 +157,7 @@ def cln_set():
         image_boxes = {i: 0 for i in range(6)}
         for line in output_list:
             parts = line.strip().split()
-            image_boxes[int(parts[24])] += 1
+            image_boxes[int(parts[num_model*num_detect])] += 1
         for i, j in image_boxes.items():
             print(i, j)
 
