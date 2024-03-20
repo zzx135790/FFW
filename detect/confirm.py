@@ -166,7 +166,7 @@ def confirm(name, results: [], mode="detect", method="model"):
 
     if mode == "detect":
         output_file(name, output_results)
-    elif mode == "model" and mode == 'train_mmodel':
+    elif mode == "mAP" or mode == 'train_mmodel':
         return output_results
 
 
