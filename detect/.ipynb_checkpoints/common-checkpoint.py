@@ -32,6 +32,9 @@ num_detect = 6
 # # model_config路径，目前是co-detr会使用
 # config_path = [
 #     '',
+#     '',
+#     '',
+#     ''
 #     # '/mnt/workspace/Co-detr/work_dirs/swin-b/gc/swinb-GC.py',
 #     # "/mnt/workspace/Co-detr/work_dirs/codetr_r50_size/codetr_r101_size.py",
 #     # "/mnt/workspace/Co-detr/work_dirs/swin-b/deroi/swinb-deroi.py"
@@ -39,10 +42,10 @@ num_detect = 6
 
 # # model路径
 # models_path = [
-#     # "/mnt/workspace/Co-detr/work_dirs/yolo/yolov8n.pt",
+#     "C:/Users/zzx123/Desktop/work/竞赛/服务外包/模型/大权重/best.pt",
 #     "C:/Users/zzx123/Desktop/work/竞赛/服务外包/模型/小权重/best.pt",
-#     # "/mnt/workspace/Co-detr/work_dirs/swin-b/gc/best_bbox_mAP_epoch_3.pth",
-#     # "/mnt/workspace/Co-detr/work_dirs/codetr_r50_size/best_bbox_mAP_epoch_12.pth",
+#     "C:/Users/zzx123/Desktop/work/竞赛/服务外包/模型/大权重dropout0.1/best.pt",
+#     "C:/Users/zzx123/Desktop/work/竞赛/服务外包/模型/大权重dropout0.2/0.2.pt",
 #     # "/mnt/workspace/Co-detr/work_dirs/swin-b/deroi/best_bbox_mAP_epoch_4.pth"
 # ]
 

@@ -127,15 +127,21 @@ def cln_set():
         # 存储每个图像的边界框信息
         image_boxes = {i: 0 for i in range(6)}
         output_list = []
+        cls1_ratio = 0.3
+        cls4_ratio = 0.4
         cls5_ratio = 0.98
         # 遍历文档中的每一行
         for line in lines:
             parts = line.strip().split()
             image_boxes[int(parts[24])] += 1
-            num_dont = float(parts[20]) + float(parts[21]) + float(parts[22]) + float(parts[23])
-            if int(parts[24]) == 5 and num_dont >= 2:
-                if random.random() >= cls5_ratio:
-                    output_list.append(line)
+            # num_dont = float(parts[20]) + float(parts[21]) + float(parts[22]) + float(parts[23])
+            if int(parts[24]) == 4 and random.random() >= cls4_ratio:
+                output_list.append(line)
+                output_list.append(line)
+            elif int(parts[24]) == 1 and random.random() >= cls1_ratio:
+                pass
+            elif int(parts[24]) == 5 and random.random() >= cls5_ratio:
+                pass
             else:
                 output_list.append(line)
 

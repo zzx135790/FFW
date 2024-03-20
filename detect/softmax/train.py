@@ -22,6 +22,7 @@ def evaluate_accuracy(data_iter, net):
 
 
 def train_model(net, train_iter, test_iter, loss, num_epochs, batch_size, params=None, lr=None, optimizer=None, scheduler=None):
+def train_model(net, train_iter, test_iter, loss, num_epochs, batch_size, params=None, lr=None, optimizer=None, scheduler=None):
     for epoch in range(num_epochs):  # 迭代训练轮数
         # 初始化本轮训练损失、训练准确率、样本数量
         net.train()
