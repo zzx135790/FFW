@@ -79,7 +79,7 @@ def train():
     trainloader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=num_workers)
     valloader = DataLoader(val_set, batch_size=batch_size, shuffle=True, num_workers=num_workers)
 
-    num_inputs = num_detect * num_model
+    num_inputs = (num_detect + 1) * num_model
     num_outputs = num_detect
 
     # 创建网络

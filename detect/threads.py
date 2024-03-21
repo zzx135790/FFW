@@ -17,6 +17,7 @@ class YoloThread(threading.Thread):
 
     def run(self):
         self.results = []
+        h, w = self.pic.shape[:2]
         yolo_results = self.model(tta_in(self.pic), verbose=False)
         for yolo_result in yolo_results:
             xyxy = yolo_result.boxes.xyxy.cpu().numpy()
@@ -25,10 +26,10 @@ class YoloThread(threading.Thread):
             temp_ans = []
             for i in range(len(cls)):
                 temp_ans.append(
-                    Result(self.mid, cls[i] - 1, conf[i], xyxy[i][0], xyxy[i][2], xyxy[i][1], xyxy[i][3])
+                    Result(self.mid, cls[i] - 1, conf[i], xyxy[i][0], xyxy[i][2], xyxy[i][1], xyxy[i][3],
+                           (xyxy[i][2] - xyxy[i][0]) * (xyxy[i][3] - xyxy[i][1]) / (w * h))
                 )
             self.results.append(temp_ans)
-        h, w = self.pic.shape[:2]
         self.results = tta_out(self.results, w, h)
 
     def stop(self):
@@ -49,16 +50,17 @@ class CodetrThread(threading.Thread):
     def run(self):
         results = inference_detector(self.model, tta_in(self.pic))
         self.results = []
+        w, h = self.pic.shape[:2]
         for page in results:
             temp_ans = []
             for single_sort in range(num_detect - 1):
                 for detect in page[single_sort]:
                     if detect[4] > self.threshold:
                         temp_ans.append(
-                            Result(self.mid, single_sort, detect[4], detect[0], detect[2], detect[1], detect[3])
+                            Result(self.mid, single_sort, detect[4], detect[0], detect[2], detect[1], detect[3],
+                                   (detect[2] - detect[0]) * (detect[3] - detect[1]) / (w * h))
                         )
             self.results.append(temp_ans)
-        w, h = self.pic.shape[:2]
         self.results = tta_out(self.results, w, h)
 
     def stop(self):

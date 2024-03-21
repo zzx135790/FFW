@@ -16,8 +16,8 @@ class MyDataset(Dataset):
             for line in lines:
                 # 将行分割成各个部分
                 parts = line.strip().split()
-                self.data.append(list(map(float, parts[0:24])))
-                self.labels.append(int(parts[24]))
+                self.data.append(list(map(float, parts[0: (num_detect + 1) * num_model])))
+                self.labels.append(int(parts[(num_detect + 1) * num_model]))
         self.data = tensor(self.data)
 
     def __getitem__(self, idx):
@@ -61,7 +61,7 @@ def mk_set():
             # 提取信息
             image_filename = parts[0]
             xmin, ymin, xmax, ymax = map(float, parts[1:5])
-            featrues = parts[5:6 + num_detect * num_model]
+            featrues = parts[5:6 + (num_detect + 1) * num_model]
 
             # 如果图像尚未在字典中，将其添加
             if image_filename not in image_boxes:
@@ -118,7 +118,7 @@ def mk_set():
                 output_file.write(ss)
 
 
-
+# 均衡数据集
 def cln_set():
     read_files = [train_set, val_set]
     for mode in range(2):
@@ -128,16 +128,16 @@ def cln_set():
         # 存储每个图像的边界框信息
         image_boxes = {i: 0 for i in range(6)}
         output_list = []
-        cls_ratio = [0, 0, 0, 0, 0.25, 0.5]
+        cls_ratio = [0.4, 0, 0, 0.4, 0.75, 0]
 
         print("Before balance:")
         # 遍历文档中的每一行
         for line in lines:
             parts = line.strip().split()
-            cls = int(parts[num_model * num_detect])
+            cls = int(parts[num_model * (num_detect + 1)])
             image_boxes[cls] += 1
             # num_dont = float(parts[num_model*(num_detect-1)]) + float(parts[num_model*(num_detect-1)+1]) + float(parts[num_model*(num_detect-1)+2]) + float(parts[num_model*(num_detect-1)+3])
-            if cls == 4 and random.random() >= cls_ratio[4]:
+            if cls == 4 and random.random() < cls_ratio[4]:
                 output_list.append(line)
                 output_list.append(line)
             elif cls == 0 and random.random() < cls_ratio[0]:
@@ -145,8 +145,7 @@ def cln_set():
             elif cls == 3 and random.random() < cls_ratio[3]:
                 pass
             elif cls == 5 and random.random() < cls_ratio[5]:
-                if float(parts[num_model*(num_detect-1)]) + float(parts[num_model*(num_detect-1)+1]) + float(parts[num_model*(num_detect-1)+2]) + float(parts[num_model*(num_detect-1)+3]) > 2:
-                    pass
+                pass
             else:
                 output_list.append(line)
 
@@ -158,10 +157,11 @@ def cln_set():
         image_boxes = {i: 0 for i in range(6)}
         for line in output_list:
             parts = line.strip().split()
-            image_boxes[int(parts[num_model*num_detect])] += 1
+            image_boxes[int(parts[num_model * (num_detect + 1)])] += 1
         for i, j in image_boxes.items():
             print(i, j)
 
         with open(read_files[mode], 'w') as output_file:
             for line in output_list:
                 output_file.write(line)
+
