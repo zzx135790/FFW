@@ -118,6 +118,7 @@ def mk_set():
                 output_file.write(ss)
 
 
+
 def cln_set():
     read_files = [train_set, val_set]
     for mode in range(2):
@@ -127,18 +128,37 @@ def cln_set():
         # 存储每个图像的边界框信息
         image_boxes = {i: 0 for i in range(6)}
         output_list = []
-        cls5_ratio = 0.98
+        cls_ratio = [0, 0, 0, 0, 0.25, 0.5]
+
+        print("Before balance:")
         # 遍历文档中的每一行
         for line in lines:
             parts = line.strip().split()
-            image_boxes[int(parts[24])] += 1
-            num_dont = float(parts[20]) + float(parts[21]) + float(parts[22]) + float(parts[23])
-            if int(parts[24]) == 5 and num_dont >= 2:
-                if random.random() >= cls5_ratio:
-                    output_list.append(line)
+            cls = int(parts[num_model * num_detect])
+            image_boxes[cls] += 1
+            # num_dont = float(parts[num_model*(num_detect-1)]) + float(parts[num_model*(num_detect-1)+1]) + float(parts[num_model*(num_detect-1)+2]) + float(parts[num_model*(num_detect-1)+3])
+            if cls == 4 and random.random() >= cls_ratio[4]:
+                output_list.append(line)
+                output_list.append(line)
+            elif cls == 0 and random.random() < cls_ratio[0]:
+                pass
+            elif cls == 3 and random.random() < cls_ratio[3]:
+                pass
+            elif cls == 5 and random.random() < cls_ratio[5]:
+                if float(parts[num_model*(num_detect-1)]) + float(parts[num_model*(num_detect-1)+1]) + float(parts[num_model*(num_detect-1)+2]) + float(parts[num_model*(num_detect-1)+3]) > 2:
+                    pass
             else:
                 output_list.append(line)
 
+        for i, j in image_boxes.items():
+            print(i, j)
+
+        # 输出均衡后的数目
+        print("After balance:")
+        image_boxes = {i: 0 for i in range(6)}
+        for line in output_list:
+            parts = line.strip().split()
+            image_boxes[int(parts[num_model*num_detect])] += 1
         for i, j in image_boxes.items():
             print(i, j)
 
