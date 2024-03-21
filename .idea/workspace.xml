@@ -7,9 +7,21 @@
     <list default="true" id="266e99af-eb60-49d0-8d55-e4726f2e1aee" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detect/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/common.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect/confirm.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/confirm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect/receive.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/receive.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detect/softmax/makeset.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/softmax/makeset.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detect/softmax/tempfile.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/softmax/tempfile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect/softmax/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/softmax/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect/softmax/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/softmax/util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detect/threads.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/threads.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pr.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/pr.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/start.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/temp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp/modelData/train.set" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp/modelData/val.set" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp/models/multiDetect.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp/train.data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp/val.data" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,13 +77,24 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/detect/test.py</url>
+          <line>145</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/utils$run.coverage" NAME="run 覆盖结果" MODIFIED="1710732031900" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/detect" />
-    <SUITE FILE_PATH="coverage/utils$start.coverage" NAME="start 覆盖结果" MODIFIED="1710941034280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/utils$start.coverage" NAME="start 覆盖结果" MODIFIED="1711023368833" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/utils$xml2coco.coverage" NAME="xml2coco 覆盖结果" MODIFIED="1710753784448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/other" />
     <SUITE FILE_PATH="coverage/utils$dataEnhance.coverage" NAME="dataEnhance 覆盖结果" MODIFIED="1710730053168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/other" />
     <SUITE FILE_PATH="coverage/utils$train.coverage" NAME="train 覆盖结果" MODIFIED="1710930106855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/detect/softmax" />
     <SUITE FILE_PATH="coverage/utils$txt2img.coverage" NAME="txt2img 覆盖结果" MODIFIED="1710732060044" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/other" />
-    <SUITE FILE_PATH="coverage/utils$temp.coverage" NAME="temp 覆盖结果" MODIFIED="1710930786909" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/utils$temp.coverage" NAME="temp 覆盖结果" MODIFIED="1711022268304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

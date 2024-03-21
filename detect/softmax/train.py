@@ -86,12 +86,12 @@ def train():
 
     # 创建网络
     net = nn.Sequential(
-        nn.Conv2d(1, num_inputs, (num_detect, num_model)),
+        nn.Conv2d(1, num_inputs, (num_detect + 1, num_model)),
         nn.Flatten(),
         nn.ReLU(),
         nn.Dropout(0.2),
         nn.Linear(num_inputs, num_outputs),
-        # nn.Dropout(0.2)
+        nn.Dropout(0.2)
     )
 
     # 初始化权重参数

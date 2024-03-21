@@ -2,6 +2,7 @@ import os.path
 import torch
 from .tempfile import output_model
 import detect.common as common
+
 model = None
 
 
@@ -21,5 +22,5 @@ def softmax(x):
 
 
 def get_sort(results: []):
-    input = torch.reshape(torch.tensor(results), (-1, 1, common.num_detect, common.num_model))
+    input = torch.reshape(torch.tensor(results), (-1, 1, (common.num_detect + 1), common.num_model)).float()
     return softmax(model(input))

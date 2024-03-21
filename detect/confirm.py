@@ -32,9 +32,10 @@ def ratio_path(single_best: []):
 
 
 def get_score(result: Result, method) -> Result:
-    filp_data = [[0.0 for _ in range(common.num_model)] for _ in range(common.num_detect)]
+    filp_data = [[0.0 for _ in range(common.num_model)] for _ in range(common.num_detect + 1)]
     # filp_data[result.cls] = [1.0 for _ in range(common.num_model)]
     filp_data[result.cls][result.mid] = result.score
+    filp_data[common.num_detect][result.mid] = result.area
     if method == "model":
         result.score = model_path(filp_data).max().item()
     elif method == "ratio":
@@ -71,11 +72,13 @@ def wbf(results: [], method, num):
 # 得到一个局域内所有的数据
 def area_data(results: []):
     appear_model = {i: False for i in range(common.num_model)}
-    single_model_best = [[0.0 for i in range(common.num_model)] for i in range(common.num_detect)]
-    max_score = 0
+    single_model_best = [[0.0 for i in range(common.num_model)] for i in range(common.num_detect + 1)]
+    max_score, area_id = 0, common.num_detect
     ans_boxes = [0, 0, 0, 0]
     for result in results:
         appear_model[result.mid] = True
+        if result.score > max(single_model_best[row][result.mid] for row in range(common.num_detect)):
+            single_model_best[area_id][result.mid] = result.area
         if result.score > single_model_best[int(result.cls)][result.mid]:
             single_model_best[int(result.cls)][result.mid] = result.score
         if result.score > max_score:
@@ -91,12 +94,13 @@ def area_data(results: []):
 
 def single(results: [], method) -> Result:
     appear_model = {i: False for i in range(common.num_model)}
-    single_model_best = [[0.0 for i in range(common.num_model)] for i in range(common.num_detect)]
-    max_score = 0
-    ans_cls = 0
+    single_model_best = [[0.0 for i in range(common.num_model)] for i in range(common.num_detect + 1)]
+    max_score, ans_cls, area_id = 0, 0, common.num_detect
     for result in results:
         appear_model[result.mid] = True
         # sort_ans[int(result.cls)] += result.score * common.weight_dict[result.mid][int(result.cls)]
+        if result.score > max(single_model_best[row][result.mid] for row in range(common.num_detect)):
+            single_model_best[area_id][result.mid] = result.area
         if result.score > single_model_best[int(result.cls)][result.mid]:
             single_model_best[int(result.cls)][result.mid] = result.score
 
@@ -115,7 +119,6 @@ def single(results: [], method) -> Result:
                 max_score = temp_ans[i]
                 ans_cls = i
 
-    
     if ans_cls == 5:
         return Result(0, 5, max_score, 0, 0, 0, 0)
     else:
@@ -126,19 +129,6 @@ def single(results: [], method) -> Result:
         ans = wbf(cls_result, method, 3)
         ans.score = max_score
         return ans
-        # ans = Result()
-        # for result in results:
-        #     if result.cls == ans_cls:
-        #         temp_ans = get_score(result, method)
-        #         if temp_ans.score > ans.score:
-        #             ans = temp_ans
-        # return ans
-        # ans = Result()
-        # for result in results:
-        #     if result.cls == ans_cls and result.score > ans.score:
-        #         ans = result
-        # ans.score = max_score
-        # return ans
 
 
 # 用于对所有的模型的结果进行验证，
