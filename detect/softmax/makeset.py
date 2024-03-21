@@ -128,7 +128,7 @@ def cln_set():
         # 存储每个图像的边界框信息
         image_boxes = {i: 0 for i in range(6)}
         output_list = []
-        cls_ratio = [0, 0, 0, 0.5, 0.25, 0]
+        cls_ratio = [0.4, 0, 0, 0.4, 0.75, 0.98]
 
         print("Before balance:")
         # 遍历文档中的每一行
@@ -137,7 +137,7 @@ def cln_set():
             cls = int(parts[num_model * num_detect])
             image_boxes[cls] += 1
             # num_dont = float(parts[num_model*(num_detect-1)]) + float(parts[num_model*(num_detect-1)+1]) + float(parts[num_model*(num_detect-1)+2]) + float(parts[num_model*(num_detect-1)+3])
-            if cls == 4 and random.random() >= cls_ratio[4]:
+            if cls == 4 and random.random() < cls_ratio[4]:
                 output_list.append(line)
                 output_list.append(line)
             elif cls == 0 and random.random() < cls_ratio[0]:

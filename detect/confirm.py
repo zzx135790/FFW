@@ -107,6 +107,7 @@ def single(results: [], method) -> Result:
     if method == "model":
         temp_ans = model_path(single_model_best)
         ans_cls = temp_ans.argmax(dim=1).item()
+        max_score = temp_ans.max().item()
     elif method == "ratio":
         temp_ans = ratio_path(single_model_best)
         for i in range(common.num_detect):
