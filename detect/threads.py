@@ -50,7 +50,7 @@ class CodetrThread(threading.Thread):
     def run(self):
         results = inference_detector(self.model, tta_in(self.pic))
         self.results = []
-        w, h = self.pic.shape[:2]
+        h, w = self.pic.shape[:2]
         for page in results:
             temp_ans = []
             for single_sort in range(num_detect - 1):
