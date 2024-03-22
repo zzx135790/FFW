@@ -29,6 +29,7 @@ class YoloThread(threading.Thread):
                 )
             self.results.append(temp_ans)
         h, w = self.pic.shape[:2]
+        # print(w, h)
         self.results = tta_out(self.results, w, h)
 
     def stop(self):
@@ -58,7 +59,8 @@ class CodetrThread(threading.Thread):
                             Result(self.mid, single_sort, detect[4], detect[0], detect[2], detect[1], detect[3])
                         )
             self.results.append(temp_ans)
-        w, h = self.pic.shape[:2]
+        h, w = self.pic.shape[:2]
+        # print(w, h)
         self.results = tta_out(self.results, w, h)
 
     def stop(self):
