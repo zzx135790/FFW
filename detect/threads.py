@@ -65,25 +65,3 @@ class CodetrThread(threading.Thread):
 
     def stop(self):
         self._stop_event.set()
-
-
-class Signal:
-    # 用于多线程
-    def __init__(self):
-        self.thrd = []
-        self.ste = 0
-
-    def state(self):
-        return self.ste
-
-    def change_state(self):
-        self.ste ^= 1
-
-    def push(self, state):
-        self.thrd.append(state)
-
-    def clear(self):
-        self.__init__()
-
-    def __len__(self):
-        return len(self.thrd)

@@ -4,24 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="266e99af-eb60-49d0-8d55-e4726f2e1aee" name="更改" comment="">
+    <list default="true" id="266e99af-eb60-49d0-8d55-e4726f2e1aee" name="更改" comment="start dispatch">
+      <change afterPath="$PROJECT_DIR$/client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/distach/server.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/distach/structs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detect/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/common.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detect/confirm.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/confirm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detect/receive.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/receive.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detect/softmax/makeset.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/softmax/makeset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detect/softmax/tempfile.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/softmax/tempfile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detect/softmax/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/softmax/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detect/softmax/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/softmax/util.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detect/threads.py" beforeDir="false" afterPath="$PROJECT_DIR$/detect/threads.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pr.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/pr.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/start.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/temp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/modelData/train.set" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/modelData/val.set" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/models/multiDetect.pt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/train.data" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/temp/val.data" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/distach/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/distach/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distach/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/distach/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distach/message.py" beforeDir="false" afterPath="$PROJECT_DIR$/distach/message.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,10 +64,22 @@
       <workItem from="1710660535684" duration="5235000" />
       <workItem from="1710729796120" duration="7482000" />
     </task>
+    <task id="LOCAL-00001" summary="start dispatch">
+      <created>1711348065618</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1711348065618</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="start dispatch" />
+    <option name="LAST_COMMIT_MESSAGE" value="start dispatch" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -92,9 +96,12 @@
     <SUITE FILE_PATH="coverage/utils$run.coverage" NAME="run 覆盖结果" MODIFIED="1710732031900" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/detect" />
     <SUITE FILE_PATH="coverage/utils$start.coverage" NAME="start 覆盖结果" MODIFIED="1711023368833" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/utils$xml2coco.coverage" NAME="xml2coco 覆盖结果" MODIFIED="1710753784448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/other" />
+    <SUITE FILE_PATH="coverage/utils$client.coverage" NAME="client 覆盖结果" MODIFIED="1711357456874" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/utils$dataEnhance.coverage" NAME="dataEnhance 覆盖结果" MODIFIED="1710730053168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/other" />
     <SUITE FILE_PATH="coverage/utils$train.coverage" NAME="train 覆盖结果" MODIFIED="1710930106855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/detect/softmax" />
     <SUITE FILE_PATH="coverage/utils$txt2img.coverage" NAME="txt2img 覆盖结果" MODIFIED="1710732060044" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/other" />
     <SUITE FILE_PATH="coverage/utils$temp.coverage" NAME="temp 覆盖结果" MODIFIED="1711022268304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/utils$message.coverage" NAME="message 覆盖结果" MODIFIED="1711276460240" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distach" />
+    <SUITE FILE_PATH="coverage/utils$server.coverage" NAME="server 覆盖结果" MODIFIED="1711357479482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

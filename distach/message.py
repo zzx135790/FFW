@@ -1,7 +1,14 @@
+import json
+
 import GPUtil
 import pickle
 import socket
 
+"""
+    对于status：
+        200：正常
+        1001：显卡被占用
+"""
 
 def get_free_gpus():
     gpus = GPUtil.getGPUs()
@@ -41,21 +48,25 @@ class client_prepare(base_msg):
 
 
 class client_result(base_msg):
-    def __init__(self, iid, mid, data):
+    def __init__(self, iid=None, mid=None, data=None, status=200):
         self.message = {
             "iid": iid,
             "mid": mid,
             "data": data,
+            "status": status,
             "ip": get_local_ip(),
             "glist": get_free_gpus()
         }
 
 
 class server_status_back(base_msg):
-    def __init__(self, status):
+    def __init__(self, status=200):
         self.message = {
             "status": status
         }
+
+    def __call__(self):
+        return json.dumps(self.message)
 
 
 class server_detect_data(base_msg):
