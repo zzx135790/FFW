@@ -7,18 +7,19 @@ from .tta import tta_in, tta_out
 
 
 class YoloThread(threading.Thread):
-    def __init__(self, thread_name, mid, model, pic_path):
+    def __init__(self, thread_name, mid, model, pic_path, gid=0):
         # 注意：一定要显式的调用父类的初始化函数。
         super(YoloThread, self).__init__(name=thread_name)
         self.results = None
-        self.pic = cv2.imread(pic_path)
+        self.pic = cv2.imread(pic_path) if pic_path else None
         self.model = model
         self.mid = mid
+        self.gid = gid
 
     def run(self):
         self.results = []
         h, w = self.pic.shape[:2]
-        yolo_results = self.model(tta_in(self.pic), verbose=False)
+        yolo_results = self.model(tta_in(self.pic), verbose=False, device=f'cuda:{self.gid}')
         for yolo_result in yolo_results:
             xyxy = yolo_result.boxes.xyxy.cpu().numpy()
             cls = yolo_result.boxes.cls.cpu().numpy()
@@ -42,7 +43,7 @@ class CodetrThread(threading.Thread):
         # 注意：一定要显式的调用父类的初始化函数。
         super(CodetrThread, self).__init__(name=thread_name)
         self.results = None
-        self.pic = cv2.imread(pic_path)
+        self.pic = cv2.imread(pic_path) if pic_path else None
         self.model = model
         self.mid = mid
         self.threshold = 0.1

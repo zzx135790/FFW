@@ -13,7 +13,7 @@ num2message = {
 }
 
 # 用于判断是否正确的阈值
-right_threshold = 0
+right_threshold = 0.5
 
 # 用于判断两个框是否重叠的阈值
 iou_threshold = 0.3
@@ -73,7 +73,7 @@ weight_dict = {
 output_file = "common.txt"
 
 # 检测的文件夹路径
-folder_path = "F:/ffwb/we_data/data_xml/ori_val_rotate"
+folder_path = "C:/Users/zzx123/Desktop/work/temp"
 
 # 类别信息
 model_classes = ['good', 'broke', 'lose', 'uncovered', 'circle']

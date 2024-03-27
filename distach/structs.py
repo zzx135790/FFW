@@ -1,62 +1,21 @@
+from datetime import datetime
 import queue
-import time
-
-
-class Lock:
-    """
-        多线程锁or信号量
-        0：正常状态
-        1：读取
-        2：写入
-    """
-    # 用于多线程
-    def __init__(self):
-        self.ste = 0
-
-    def state(self):
-        return self.ste
-
-    def resume(self):
-        self.ste = 0
-
-    def read(self):
-        while not self.check_state(1):
-            time.sleep(0.1)
-        self.ste = 1
-
-    def write(self):
-        while not self.check_state(2):
-            time.sleep(0.1)
-        self.ste = 2
-
-    # 状态检测，只允许读读
-    def check_state(self, o):
-        if self.ste == 0 or (self.ste == 1 and o == 1):
-            return True
-        return False
-
-
-# 基础的多线程数据
-# class BasicData:
-#     def __init__(self):
-#         self.data = None
-#         self.sig = Signal()
+import distach.config as config
+import threading
 
 
 class BasicData:
     def __init__(self, data):
         self.data = data
-        self.lock = Lock()
+        self.lock = threading.Lock()
 
     def update(self, data):
-        self.lock.write()
-        self.data = data
-        self.lock.resume()
+        with self.lock:
+            self.data = data
 
     def get(self):
-        self.lock.read()
-        data = self.data
-        self.lock.resume()
+        with self.lock:
+            data = self.data
         return data
 
 
@@ -66,7 +25,7 @@ class ClientTable:
         self.empty_queue = queue.Queue()
 
     def update(self, ip, glist):
-        if not self.data.get(ip):
+        if self.data.get(ip) is None:
             self.data[ip] = BasicData(glist)
         else:
             self.data[ip].update(glist)
@@ -75,12 +34,55 @@ class ClientTable:
 
     def get_table(self, ip):
         data = self.data.get(ip)
-        if data:
+        if data is not None:
             return data.get()
         else:
             return data
 
-    def get_empty(self):
+    def get_free(self):
         if self.empty_queue.empty():
             return None
         return self.empty_queue.get()
+
+
+class AnsTable:
+    def __init__(self, files, num):
+        self.ans = {}
+        self.num = num
+        for file in files:
+            for index in range(num):
+                self.ans[(file, index)] = BasicData(None)
+
+    def update(self, file, index, data):
+        self.ans[(file, index)].update(data)
+
+    def get(self, file, index):
+        return self.ans[(file, index)].get()
+
+    def gets(self, file):
+        return [self.ans[(file, index)].get() for index in range(self.num)]
+
+    def check(self, file):
+        for index in range(self.num):
+            if self.ans[(file, index)] is None:
+                return False
+        return True
+
+
+class TimeTable:
+    def __init__(self):
+        self.time_table = {}
+
+    def update(self, index):
+        if self.time_table.get(index):
+            self.time_table[index].update(datetime.now().timestamp())
+        else:
+            self.time_table[index] = BasicData(datetime.now().timestamp())
+
+    def check(self, index):
+        if datetime.now().timestamp() - self.time_table.get(index).get() >= config.overtime_second:
+            return True
+        return False
+
+    def clear(self):
+        self.time_table = {}
