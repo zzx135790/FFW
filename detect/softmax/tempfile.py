@@ -13,14 +13,16 @@ train_data = os.path.join(temp_dir, 'train.data')
 val_data = os.path.join(temp_dir, 'val.data')
 
 # 划分train和val的比例
-train_ratio = 0.9
+train_ratio = 0
 
 # 储存训练图片的目录
 # train_img_dir = "F:/ffwb/we_data/2th/data_xml/ori_val"
 train_img_dir = "/mnt/workspace/xml_data/Images"
+# train_img_dir = "/mnt/workspace/test"
 
 # 储存训练信息的目录
 train_xml_dir = "/mnt/workspace/xml_data/Annotations"
+# train_xml_dir = "/mnt/workspace/test/Annotations"
 # train_xml_dir = "F:/ffwb/we_data/2th/origin_data/xml"
 
 

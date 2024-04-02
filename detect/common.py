@@ -16,7 +16,7 @@ num2message = {
 right_threshold = 0
 
 # 用于判断两个框是否重叠的阈值
-iou_threshold = 0.3
+iou_threshold = 0.6
 
 # 用于判断具体类别的模型数量
 num_model = 4
@@ -32,18 +32,25 @@ num_detect = 6
 # # model_config路径，目前是co-detr会使用
 # config_path = [
 #     '',
-#     # '/mnt/workspace/Co-detr/work_dirs/swin-b/gc/swinb-GC.py',
-#     # "/mnt/workspace/Co-detr/work_dirs/codetr_r50_size/codetr_r101_size.py",
-#     # "/mnt/workspace/Co-detr/work_dirs/swin-b/deroi/swinb-deroi.py"
+#     # "/mnt/workspace/models/1st.py",
+#     # "/mnt/workspace/models/2nd.py",
+#     # "/mnt/workspace/models/3rd.py",
+#     # "/mnt/workspace/models/4th.py"
+    
 # ]
 
 # # model路径
 # models_path = [
-#     # "/mnt/workspace/Co-detr/work_dirs/yolo/yolov8n.pt",
-#     "C:/Users/zzx123/Desktop/work/竞赛/服务外包/模型/小权重/best.pt",
-#     # "/mnt/workspace/Co-detr/work_dirs/swin-b/gc/best_bbox_mAP_epoch_3.pth",
-#     # "/mnt/workspace/Co-detr/work_dirs/codetr_r50_size/best_bbox_mAP_epoch_12.pth",
-#     # "/mnt/workspace/Co-detr/work_dirs/swin-b/deroi/best_bbox_mAP_epoch_4.pth"
+#     # "/mnt/workspace/models/3xpt.pt",
+#     "/mnt/workspace/models/3xpt_2.pt",
+#     # "/mnt/workspace/models/3xpt_dropout=0.2.pt",    
+#     # "/mnt/workspace/models/3npt.pt",
+#     # "/mnt/workspace/models/3npt_2.pt",
+#     # "/mnt/workspace/models/3npt_dropout=0.2.pt",
+#     # "/mnt/workspace/models/1st.pth",
+#     # "/mnt/workspace/models/2nd.pth",
+#     # "/mnt/workspace/models/3rd.pth",
+#     # "/mnt/workspace/models/4th.pth"
 # ]
 
 # 权重字典，需要自定义
@@ -57,24 +64,34 @@ weight_dict = {
 # model_config路径，目前是co-detr会使用
 config_path = [
     '',
-    '/mnt/workspace/Co-detr/work_dirs/swin-b/gc/swinb-GC.py',
-    "/mnt/workspace/Co-detr/work_dirs/codetr_r50_size/codetr_r101_size.py",
-    "/mnt/workspace/Co-detr/work_dirs/swin-b/deroi/swinb-deroi.py"
+    '',
+    "/mnt/workspace/models/1st.py",
+    "/mnt/workspace/models/2nd.py",
+    # "/mnt/workspace/models/3rd.py",
+    # "/mnt/workspace/models/4th.py"
+    
 ]
 
 # model路径
 models_path = [
-    "/mnt/workspace/Co-detr/work_dirs/yolo/yolov8n.pt",
-    "/mnt/workspace/Co-detr/work_dirs/swin-b/gc/best_bbox_mAP_epoch_3.pth",
-    "/mnt/workspace/Co-detr/work_dirs/codetr_r50_size/best_bbox_mAP_epoch_12.pth",
-    "/mnt/workspace/Co-detr/work_dirs/swin-b/deroi/best_bbox_mAP_epoch_4.pth"
+    "/mnt/workspace/models/3xpt.pt",
+    # "/mnt/workspace/models/3xpt_2.pt",
+    # "/mnt/workspace/models/3xpt_dropout=0.2.pt",    
+    "/mnt/workspace/models/3npt.pt",
+    # "/mnt/workspace/models/3npt_2.pt",
+    # "/mnt/workspace/models/3npt_dropout=0.2.pt",
+    "/mnt/workspace/models/1st.pth",
+    "/mnt/workspace/models/2nd.pth",
+    # "/mnt/workspace/models/3rd.pth",
+    # "/mnt/workspace/models/4th.pth"
 ]
 
 # 输出文件的路径
-output_file = "common.txt"
+output_file = "test.txt"
 
 # 检测的文件夹路径
-folder_path = "F:/ffwb/we_data/data_xml/ori_val_rotate"
+# folder_path = "F:/ffwb/we_data/data_xml/ori_val_rotate"
+folder_path = "/mnt/workspace/test"
 
 # 类别信息
 model_classes = ['good', 'broke', 'lose', 'uncovered', 'circle']
@@ -83,11 +100,11 @@ model_classes = ['good', 'broke', 'lose', 'uncovered', 'circle']
 temp_dir = './temp/'
 
 # 测试的目标文件夹
-test_dir = "/mnt/workspace/temp/images/val"
+test_dir = "/mnt/workspace/test"
 # test_dir = "F:/ffwb/we_data/data_xml/ori_val_rotate"
 
 # 测试使用的目标框文件夹，注意是voc格式的信息，全部放在一个文件夹下
-xml_dir = "/mnt/workspace/xml_data/Annotations"
+xml_dir = "/mnt/workspace/test/Annotations"
 # xml_dir = "F:/ffwb/we_data/data_xml/ori_val_rotate"
 
 

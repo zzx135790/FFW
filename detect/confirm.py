@@ -140,7 +140,7 @@ def single(results: [], method) -> Result:
         # return ans
 
 # 用于对所有的模型的结果进行验证，
-def confirm(name, results: [], mode="detect", method="ratio"):
+def confirm(name, results: [], mode="detect", method="model"):
     had_sort = {i: False for i in range(len(results))}
     results.sort(key=lambda x: x.score, reverse=True)
     overlop_set = []

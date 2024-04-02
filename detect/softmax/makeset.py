@@ -128,7 +128,7 @@ def cln_set():
         # 存储每个图像的边界框信息
         image_boxes = {i: 0 for i in range(6)}
         output_list = []
-        cls_ratio = [0, 0, 0, 0, 0.25, 0.5]
+        cls_ratio = [0, 0, 0, 0, 0.25, 0.6]
 
         print("Before balance:")
         # 遍历文档中的每一行
