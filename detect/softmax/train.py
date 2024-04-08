@@ -8,6 +8,46 @@ from torch.nn import init
 import sys
 import os
 
+class MMF_model(nn.Module):
+    def __init__(self, n_model, n_detect, bias=16):
+        super(MMF_model, self).__init__()
+        self.linear1 = nn.Linear(n_model, bias * n_detect * n_model)
+        self.elu = nn.ELU()
+        self.linear2 = nn.Linear(bias * n_model * n_detect, n_model * n_detect)
+        self.back1 = nn.Softmax(dim=0)
+        self.conv1 = nn.Conv2d(1, bias * n_model, (1, n_model))
+        self.conv2 = nn.Conv2d(bias * n_model, bias * n_model, (n_detect, 1))
+        self.flatten = nn.Flatten()
+        self.linear3 = nn.Linear(bias * n_model * n_detect, n_detect)
+        self.shape = (n_detect, n_model)
+
+        self._initialize_weights()
+
+    def forward(self, x):
+        sz = x[:, :, -1:, :]
+        sz = self.linear1(sz)
+        sz = self.elu(sz)
+        sz = self.linear2(sz)
+        sz = sz.view(-1, 1, self.shape[0], self.shape[1])
+        x = sz * x[:, :, :-1, :]
+        x = self.conv1(x)
+        x = x * self.conv2(x)
+        x = self.flatten(x)
+        x = self.linear3(x)
+        return x
+
+    def _initialize_weights(self):
+        # 初始化线性层的权重
+        for m in self.modules():
+            if isinstance(m, nn.Linear):
+                nn.init.xavier_uniform_(m.weight)
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Conv2d):
+                nn.init.kaiming_uniform_(m.weight, mode='fan_out', nonlinearity='relu')
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
+
 
 def accuracy(y_hat, y):
     return (y_hat.argmax(dim=1) == y).float().mean().item()
@@ -69,7 +109,7 @@ def train():
             if exc.errno != os.errno.EEXIST:
                 raise
 
-    batch_size = 10
+    batch_size = 1
     if sys.platform.startswith('win'):
         num_workers = 0  # 0表示不用额外的进程来加速读取数据
     else:
@@ -98,6 +138,7 @@ def train():
     init.normal_(net[0].weight, mean=0, std=0.01)  # 权重
     init.constant_(net[0].bias, val=0)  # 偏置
 
+    # net = MMF_model(num_model, num_detect)
     # softmax和交叉熵损失函数
     loss = nn.CrossEntropyLoss()
 
