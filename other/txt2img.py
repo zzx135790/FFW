@@ -1,57 +1,50 @@
+from PIL import Image, ImageDraw, ImageFont
 import os
-from PIL import Image, ImageDraw
-from detect.common import output_file
 
-def draw_bounding_boxes(image_folder, output_folder):
-    """
-    Draw bounding boxes on images based on the annotations provided.
-    This version supports multiple bounding boxes per image.
+# 设定图片文件夹的路径和文本文件路径
+image_folder_path = 'C:/Users/zzx123/Desktop/data/test'
+file_path = 'C:/Users/zzx123/Desktop/data/test.txt'
 
-    :param image_folder: Folder containing the images.
-    :param annotations_folder: Folder containing the annotations in txt format.
-    :param output_folder: Folder to save the images with bounding boxes.
-    """
-    # Create the output folder if it doesn't exist
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+# 设定框的颜色和类别标签
+box_color = [('good', 'red'), ('broke', 'green'), ('lose', 'blue'), ('uncovered', 'yellow'), ('circle', 'black')]
 
-    # Dictionary to hold image data
-    image_data = {}
-
-    with open(output_file, 'r') as file:
-        lines = file.readlines()
-
-    # Process each line in the current annotation file
-    for line in lines:
-        parts = line.strip().split()
+# 解析文本文件，按图像组织边界框数据
+boxes_by_image = {}
+with open(file_path, 'r') as file:
+    for line in file.readlines():
+        parts = line.strip().split(' ')
         if len(parts) == 6:
-            image_file, _, xmin, ymin, xmax, ymax = parts
-            xmin, ymin, xmax, ymax = map(float, [xmin, ymin, xmax, ymax])
+            image_name, category_index, xmin, ymin, xmax, ymax = parts
+            category_index = int(category_index)
+            if image_name not in boxes_by_image:
+                boxes_by_image[image_name] = []
+            boxes_by_image[image_name].append((category_index, xmin, ymin, xmax, ymax))
 
-            # Accumulate bounding boxes for each image
-            if image_file not in image_data:
-                image_data[image_file] = []
-            image_data[image_file].append((xmin, ymin, xmax, ymax))
+# 遍历每张图像，绘制所有边界框和类别名称
+for image_name, boxes in boxes_by_image.items():
+    image_path = os.path.join(image_folder_path, image_name)
+    try:
+        with Image.open(image_path) as img:
+            draw = ImageDraw.Draw(img)
+            for box in boxes:
+                category_index, xmin, ymin, xmax, ymax = box
+                label, color = box_color[category_index]
 
-    # Draw bounding boxes for each image
-    for image_file, boxes in image_data.items():
-        image_path = os.path.join(image_folder, image_file)
-        if os.path.exists(image_path):
-            # Open the image
-            image = Image.open(image_path)
-            draw = ImageDraw.Draw(image)
+                # 绘制边界框
+                draw.rectangle([float(xmin), float(ymin), float(xmax), float(ymax)], outline=color, width=3)
 
-            # Draw all rectangles for the current image
-            for xmin, ymin, xmax, ymax in boxes:
-                draw.rectangle([xmin, ymin, xmax, ymax], outline='red', width=2)
+                # 绘制类别名称
+                try:
+                    font = ImageFont.truetype("arial.ttf", 20)  # 尝试使用Arial字体
+                except IOError:
+                    font = ImageFont.load_default()  # 否则使用默认字体
+                draw.text((float(xmin), float(ymin) - 10), label, fill=color, font=font)
 
-            # Save the image with bounding boxes
-            output_image_path = os.path.join(output_folder, image_file)
-            image.save(output_image_path)
-            print(f"Processed {image_file}")
-
-
-# Example usage
-image_folder = 'F:/ffwb/we_data/data_xml/ori_val_rotate'
-output_folder = './results/2'
-draw_bounding_boxes(image_folder, output_folder)
+            # 保存修改后的图像
+            save_path = os.path.join(image_folder_path, f"processed_{image_name}")
+            if img.mode == 'RGBA':
+                img = img.convert('RGB')
+            img.save(save_path)
+            print(f"Image processed and saved: {save_path}")
+    except FileNotFoundError:
+        print(f"Image file not found: {image_path}")

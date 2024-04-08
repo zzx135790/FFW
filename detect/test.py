@@ -58,8 +58,8 @@ def test_model(file):
                 fp += 1
 
     # val_set = read_jpg_files("C:\\Users\\zzx123\\Desktop\\work\\temp")
-    for filename in os.listdir("C:\\Users\\zzx123\\Desktop\\work\\temp"):
-        xml_path = os.path.join(xml_dir, os.path.splitext(image_name)[0] + ".xml")
+    for filename in os.listdir("C:/Users/zzx123/Desktop/data/xml"):
+        xml_path = os.path.join(xml_dir, filename.split('.')[0] + ".xml")
         ans_set = read_box_from_xml(xml_path)
         for right in ans_set:
             iou_flag = False

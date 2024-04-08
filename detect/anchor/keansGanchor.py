@@ -19,7 +19,7 @@ def anchor_fitness(k: np.ndarray, wh: np.ndarray, thr: float):  # mutation fitne
 
 def anchors(img_size=1920, n=2, thr=0.5, gen=1000):
     # 从数据集中读取所有图片的wh以及对应bboxes的wh
-    dataset = VOCDataSet("C:/Users/zzx123/Desktop/work/竞赛/服务外包/we_data/data_xml/train")
+    dataset = VOCDataSet("C:/Users/zzx123/Desktop/work/竞赛/服务外包/2024中国大学生服务外包创新创业大赛data/train_xmls")
     im_wh, boxes_wh = dataset.get_info()
 
     # 最大边缩放到img_size
@@ -36,11 +36,11 @@ def anchors(img_size=1920, n=2, thr=0.5, gen=1000):
     #
     loss = 0.0
     # Kmeans calculation
-    # print(f'Running kmeans for {n} anchors on {len(wh)} points...')
-    # s = wh.std(0)  # sigmas for whitening
-    # k, dist = kmeans(wh / s, n, iter=30)  # points, mean distance
-    # assert len(k) == n, print(f'ERROR: scipy.cluster.vq.kmeans requested {n} points but returned only {len(k)}')
-    # k *= s
+    print(f'Running kmeans for {n} anchors on {len(wh)} points...')
+    s = wh.std(0)  # sigmas for whitening
+    k, dist = kmeans(wh / s, n, iter=80)  # points, mean distance
+    assert len(k) == n, print(f'ERROR: scipy.cluster.vq.kmeans requested {n} points but returned only {len(k)}')
+    k *= s
     k, loss = k_means(wh, n, loss)
 
     # 按面积排序

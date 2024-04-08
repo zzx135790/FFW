@@ -87,7 +87,7 @@ test_dir = "F:/ffwb/we_data/2th/data_xml/ori_val_rotate"
 
 # 测试使用的目标框文件夹，注意是voc格式的信息，全部放在一个文件夹下
 # xml_dir = "/mnt/workspace/xml_data/Annotations"
-xml_dir = "F:/ffwb/we_data/2th/data_xml/ori_val_rotate"
+xml_dir = "C:/Users/zzx123/Desktop/data/xml"
 
 
 # 程序错误退出的函数
@@ -108,18 +108,30 @@ def read_jpg_files(_folder_path):
 
 # 从xml文件中读取目标框
 def read_box_from_xml(xml_path):
-    import xml.dom.minidom
+    import xml.etree.ElementTree as ET
     from .receive import Result
     class2num = {model_classes[i]: i for i in range(5)}
-    dom = xml.dom.minidom.parse(xml_path)
-    root = dom.documentElement
+    # 解析XML文件
+    tree = ET.parse(xml_path)
+    root = tree.getroot()
     ans_set = []
-    for id in range(len(root.getElementsByTagName("name"))):
-        type = root.getElementsByTagName("name")[id].firstChild.data
-        xmin = float(root.getElementsByTagName("xmin")[id].firstChild.data)
-        ymin = float(root.getElementsByTagName("ymin")[id].firstChild.data)
-        xmax = float(root.getElementsByTagName("xmax")[id].firstChild.data)
-        ymax = float(root.getElementsByTagName("ymax")[id].firstChild.data)
-        typeId = class2num[type]
+
+    # 遍历所有的object元素
+    for obj in root.findall('object'):
+        type_name = obj.find('name').text
+        typeId = class2num.get(type_name, -1)  # 使用get避免KeyError，如果type不存在则返回-1
+        if typeId == -1:
+            continue  # 如果类型不在class2num中，跳过这个object
+
+        # 获取bndbox信息
+        bndbox = obj.find('bndbox')
+        xmin = float(bndbox.find('xmin').text)
+        ymin = float(bndbox.find('ymin').text)
+        xmax = float(bndbox.find('xmax').text)
+        ymax = float(bndbox.find('ymax').text)
+
+        # 假设Result类的构造函数如下：Result(confidence, class_id, _, xmin, xmax, ymin, ymax)
+        # 根据实际情况调整
         ans_set.append(Result(0, typeId, 0, xmin, xmax, ymin, ymax))
+
     return ans_set

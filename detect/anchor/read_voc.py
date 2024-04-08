@@ -47,7 +47,7 @@ class VOCDataSet(object):
         boxes_wh_list = []
         for xml_path in tqdm(self.xml_list, desc="read data info."):
             # read xml
-            with open(xml_path) as fid:
+            with open(xml_path,'rb') as fid:
                 xml_str = fid.read()
             xml = etree.fromstring(xml_str)
             data = self.parse_xml_to_dict(xml)["annotation"]

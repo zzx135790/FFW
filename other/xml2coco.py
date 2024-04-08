@@ -107,10 +107,10 @@ if __name__ == '__main__':
     only_care_pre_define_categories = True
     # only_care_pre_define_categories = False
 
-    train_ratio = 0
+    train_ratio = 0.99
     save_json_train = 'train.json'
     save_json_val = 'val.json'
-    xml_dir = "F:\\ffwb\\we_data\\data_xml\\ori_val"
+    xml_dir = "C:/Users/zzx123/Desktop/work/竞赛/服务外包/2024中国大学生服务外包创新创业大赛data/ori_data"
 
     xml_list = glob.glob(xml_dir + "/*.xml")
     xml_list = np.sort(xml_list)
